@@ -1,0 +1,111 @@
+.buttonSales{
+    -fx-font-weight: bold;
+    -fx-background-color: #2196f3;
+    -fx-background-radius: 20;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+
+.buttonSales:hover{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-font-size: 12;
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+}
+
+.deletebtn{
+    -fx-font-weight: bold;
+    -fx-background-color: #2196f3;
+    -fx-background-radius: 20;
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+}
+
+.deletebtn:pressed{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-font-size: 8;
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+}
+
+.buttonSales:pressed{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-font-size: 15;
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+    -fx-rotate: 10;
+}
+.itemSales{
+    -fx-background-color: #ffffff69;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-text-fill: #3f09ff;
+    -fx-background-radius: 20;
+}
+.itemSales:hover{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    /*-fx-font-size: 15;*/
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+}
+.itemClick{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    /*-fx-font-size: 15;*/
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+}
+.paneItems{
+    -fx-background-color: #ffffff69;
+    -fx-background-radius: 20px;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 3;
+    -fx-border-radius: 20;
+}
+.buttonTables{
+    -fx-background-radius: 20px;
+}
+.buttonTablesStatus{
+    -fx-background-radius: 20px;
+    -fx-background-color: red;
+}
+.dialog-button{
+    -fx-font-weight: bold;
+    -fx-background-color: #2196f3;
+    -fx-background-radius: 20;
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+}
+
+.dialog-button:hover{
+    -fx-font-weight: bold;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-font-size: 10;
+    -fx-text-fill: #2196f3;
+    -fx-border-radius: 20;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 1;
+}
+

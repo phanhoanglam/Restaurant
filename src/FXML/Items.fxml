@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneItems" prefHeight="990.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ItemsController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="anchorPaneItems" prefHeight="768.0" prefWidth="1350.0">
+         <children>
+            <ImageView fitHeight="990.0" fitWidth="1800.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/view.jpg" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="630.0" layoutY="38.0" onAction="#clickItems" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Items" textFill="#15131b" underline="true" />
+            <JFXButton layoutX="990.0" layoutY="38.0" onAction="#clickStatistical" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Statistical" textFill="WHITE" underline="true" />
+            <JFXButton layoutX="810.0" layoutY="38.0" onAction="#clickTable" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Table" textFill="WHITE" underline="true" />
+            <StackPane fx:id="stackPaneItem" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="55.0" layoutY="104.0" prefHeight="531.0" prefWidth="425.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <JFXComboBox fx:id="cbbItemCategory" layoutX="79.0" layoutY="343.0" prefHeight="46.0" prefWidth="281.0" promptText="Category" />
+                              <JFXTextField fx:id="txtItemName" labelFloat="true" layoutX="79.0" layoutY="40.0" prefHeight="46.0" prefWidth="281.0" promptText="Item name" style=": ;">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <JFXButton fx:id="btnImagesItems" layoutX="79.0" layoutY="277.0" onAction="#clickImagesItems" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #ffffff69;" text="Images">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></JFXButton>
+                              <Button fx:id="btnAddItems" layoutX="79.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickAddItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
+                              <Button fx:id="btnDeleteItems" layoutX="149.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickDeleteItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" visible="false" />
+                              <JFXTextField fx:id="txtAmountItems" labelFloat="true" layoutX="79.0" layoutY="197.0" prefHeight="46.0" prefWidth="281.0" promptText="Amount">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <Button fx:id="btnEditItems" layoutX="16.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickEditItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Edit" visible="false" />
+                              <JFXTextField fx:id="txtItemQuantity" labelFloat="true" layoutX="79.0" layoutY="117.0" prefHeight="46.0" prefWidth="281.0" promptText="Quantity">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <Button fx:id="btnResetItems" layoutX="232.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickResetItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Reset" />
+                              <Button fx:id="btnCancelItems" layoutX="283.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickCancelItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Cancel" visible="false" />
+                              <TextField fx:id="txtStorageID" layoutX="295.0" layoutY="25.0" prefHeight="29.0" prefWidth="31.0" visible="false" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <TableView fx:id="tableItems" layoutX="790.0" layoutY="104.0" onMouseClicked="#clickRowTableItems" prefHeight="768.0" prefWidth="984.0">
+                           <columns>
+                              <TableColumn fx:id="storageIdCol" prefWidth="200.0" text="storage_item_id" visible="false" />
+                              <TableColumn fx:id="categoryCol" prefWidth="325.0" text="Category" />
+                              <TableColumn fx:id="nameCol" prefWidth="337.0" text="Item name" />
+                              <TableColumn fx:id="quantityCol" minWidth="0.0" prefWidth="321.0" text="Left quantity" />
+                              <TableColumn fx:id="priceCol" prefWidth="75.0" text="price" visible="false" />
+                              <TableColumn fx:id="imagesCol" prefWidth="75.0" text="images" visible="false" />
+                           </columns>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </TableView>
+                        <ImageView fx:id="imageViewItems" fitHeight="206.0" fitWidth="251.0" layoutX="512.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
+                        <Pane layoutX="790.0" prefHeight="90.0" prefWidth="984.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <JFXTextField fx:id="txtSearchItemName" labelFloat="true" layoutX="106.0" layoutY="31.0" prefHeight="38.0" prefWidth="213.0" promptText="Item name">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <JFXComboBox fx:id="cbbSearchCategory" layoutX="409.0" layoutY="33.0" prefHeight="38.0" prefWidth="213.0" promptText="Category" />
+                              <Button layoutX="647.0" layoutY="35.0" mnemonicParsing="false" onAction="#clickCategorySearchNull" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Category null" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <JFXTextField fx:id="linkImages" disable="true" layoutX="512.0" layoutY="354.0" prefHeight="25.0" prefWidth="251.0" />
+                     </children>
+                  </AnchorPane>
+               </children></StackPane>
+            <StackPane fx:id="stackPaneTable" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false">
+               <children>
+                  <AnchorPane prefHeight="785.0" prefWidth="1400.0">
+                     <children>
+                        <ScrollPane layoutX="239.0" layoutY="163.0" prefHeight="712.0" prefWidth="1321.0">
+                           <content>
+                              <FlowPane fx:id="flowPaneTable" layoutX="8.0" prefHeight="712.0" prefWidth="1299.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-250.0" AnchorPane.topAnchor="0.0" />
+                           </content>
+                        </ScrollPane>
+                        <Pane layoutX="575.0" layoutY="24.0" prefHeight="110.0" prefWidth="651.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <Button fx:id="btnAddTable" layoutX="158.0" layoutY="37.0" mnemonicParsing="false" onAction="#clickAddNumberTable" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
+                              <Button fx:id="btnDeleteTable" layoutX="370.0" layoutY="37.0" mnemonicParsing="false" onAction="#clickDeleteNumberTable" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </children></StackPane>
+            <StackPane fx:id="stackPaneStatistical" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false" />
+            <Button layoutX="1595.0" layoutY="34.0" mnemonicParsing="false" onAction="#clickComeBackManage" prefHeight="36.0" prefWidth="151.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Come back" />
+            <Pane layoutX="1194.0" layoutY="-1.0" prefHeight="78.0" prefWidth="272.0" style="-fx-background-color: black;">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="41.0" text="Date" textFill="#0bf434">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="42.0" prefHeight="17.0" prefWidth="41.0" style="-fx-font-weight: bold;" text="Time" textFill="#0bf434" />
+                  <Label alignment="CENTER" layoutX="68.0" layoutY="14.0" prefHeight="17.0" prefWidth="174.0" style="-fx-font-weight: bold;" text="2019 - 01 - 26" textFill="#0bf434" />
+                  <Label alignment="CENTER" layoutX="68.0" layoutY="42.0" prefHeight="17.0" prefWidth="174.0" style="-fx-font-weight: bold;" text="12:35:00" textFill="#0bf434" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

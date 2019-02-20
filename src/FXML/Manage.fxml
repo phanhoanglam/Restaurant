@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import eu.hansolo.medusa.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneManage" prefHeight="990.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ManageController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1350.0">
+         <children>
+            <ImageView fitHeight="990.0" fitWidth="1800.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/view.jpg" />
+               </image>
+            </ImageView>
+            <Pane layoutX="625.0" layoutY="198.0" prefHeight="595.0" prefWidth="477.0" style="-fx-background-color: #ffffff69;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <Button fx:id="btnLoadScondSales" layoutX="142.0" layoutY="82.0" mnemonicParsing="false" onAction="#loadScondSales" prefHeight="47.0" prefWidth="193.0" styleClass="buttonManager" stylesheets="@../Css/Manage.css" text="Sales" />
+                  <Button fx:id="btnLoadScondItems" layoutX="142.0" layoutY="196.0" mnemonicParsing="false" onAction="#loadScondItems" prefHeight="47.0" prefWidth="193.0" styleClass="buttonManager" stylesheets="@../Css/Manage.css" text="Items" />
+                  <Button layoutX="142.0" layoutY="413.0" mnemonicParsing="false" onAction="#clickExitManager" prefHeight="47.0" prefWidth="193.0" styleClass="buttonManager" stylesheets="@../Css/Manage.css" text="Exit" />
+                  <Button fx:id="btnLoadScondUsers" layoutX="142.0" layoutY="304.0" mnemonicParsing="false" onAction="#loadScondUsers" prefHeight="47.0" prefWidth="193.0" styleClass="buttonManager" stylesheets="@../Css/Manage.css" text="Users" />
+                  <Label fx:id="lockItems" layoutX="351.0" layoutY="196.0" prefHeight="47.0" prefWidth="39.0" visible="false">
+                     <graphic>
+                        <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/locked%20(1).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lockUser" layoutX="351.0" layoutY="304.0" prefHeight="47.0" prefWidth="39.0" visible="false">
+                     <graphic>
+                        <ImageView fitHeight="47.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/locked%20(1).png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="625.0" prefHeight="161.0" prefWidth="477.0" style="-fx-background-color: #ffffff69;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <Label alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="56.0" prefWidth="427.0" text="Wellcome to Restaurant" textFill="#dd2727">
+                     <font>
+                        <Font name="System Bold Italic" size="37.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="127.0" layoutY="70.0" prefHeight="21.0" prefWidth="67.0" text="User" textFill="#fcf9f9">
+                     <font>
+                        <Font name="System Bold Italic" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="127.0" layoutY="115.0" prefHeight="21.0" prefWidth="67.0" text="Role  " textFill="#fcfafa">
+                     <font>
+                        <Font name="System Bold Italic" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblUser" layoutX="239.0" layoutY="70.0" prefHeight="32.0" prefWidth="180.0" textFill="#f2f0f0">
+                     <font>
+                        <Font name="System Bold Italic" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblRole" layoutX="239.0" layoutY="115.0" prefHeight="32.0" prefWidth="180.0" textFill="#f5f4f4">
+                     <font>
+                        <Font name="System Bold Italic" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneSales" prefHeight="990.0" prefWidth="1800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SalesController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="anchorPaneSales" prefHeight="768.0" prefWidth="1350.0">
+         <children>
+            <ImageView fitHeight="990.0" fitWidth="1800.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/view.jpg" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="btnListTable" layoutX="630.0" layoutY="38.0" onAction="#clickListTable" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="List table" textFill="#15131b" underline="true" />
+            <JFXButton fx:id="btnInOut" layoutX="990.0" layoutY="38.0" onAction="#clickInOut" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="In &amp; Out" textFill="WHITE" underline="true" />
+            <JFXButton fx:id="btnListBill" layoutX="810.0" layoutY="38.0" onAction="#clickListBill" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="List bill" textFill="WHITE" underline="true" />
+            <StackPane fx:id="stackPaneListTable" layoutY="92.0" prefHeight="896.0" prefWidth="1800.0">
+               <children>
+                  <GridPane layoutX="6.0" layoutY="92.0" prefHeight="676.0" prefWidth="1350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="92.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                              <FlowPane fx:id="folowPaneTableSales" layoutX="8.0" prefHeight="892.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-250.0" AnchorPane.topAnchor="0.0" />
+                          </content>
+                        </ScrollPane>
+                        <Pane pickOnBounds="false" GridPane.columnIndex="1">
+                           <children>
+                              <Pane layoutX="10.0" prefHeight="226.0" prefWidth="580.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                                 <children>
+                                    <Button fx:id="btnSepetateSales" layoutX="439.0" layoutY="172.0" mnemonicParsing="false" onAction="#clickSepetateSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Sepetate" />
+                                    <Label layoutX="21.0" layoutY="52.0" prefHeight="17.0" prefWidth="96.0" text="Table no : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label layoutX="21.0" layoutY="131.0" prefHeight="17.0" prefWidth="96.0" text="Out time : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Button fx:id="btnGatherSales" layoutX="300.0" layoutY="172.0" mnemonicParsing="false" onAction="#clickGatherSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Gather" />
+                                    <Button fx:id="btnReserveSales" layoutX="21.0" layoutY="172.0" mnemonicParsing="false" onAction="#clickReserveSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Reserve" />
+                                    <Button fx:id="btnCancelSales" layoutX="439.0" layoutY="66.0" mnemonicParsing="false" onAction="#clickCancelSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Cancel" />
+                                    <Label layoutX="21.0" layoutY="11.0" prefHeight="17.0" prefWidth="96.0" text="User : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Button fx:id="btnFinishSales" layoutX="439.0" layoutY="120.0" mnemonicParsing="false" onAction="#clickFinishSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Finish" />
+                                    <Button fx:id="btnStartSales" layoutX="439.0" layoutY="18.0" mnemonicParsing="false" onAction="#clickStartSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Start" />
+                                    <Button fx:id="btnTransferSales" layoutX="163.0" layoutY="172.0" mnemonicParsing="false" onAction="#clickTransferSales" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Transfer" />
+                                    <Label layoutX="21.0" layoutY="90.0" prefHeight="17.0" prefWidth="96.0" text="In time : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label fx:id="userSales" alignment="CENTER" layoutX="163.0" layoutY="10.0" prefHeight="21.0" prefWidth="200.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label fx:id="tableNoSales" alignment="CENTER" layoutX="163.0" layoutY="52.0" prefHeight="21.0" prefWidth="200.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label fx:id="intimeSales" alignment="CENTER" layoutX="163.0" layoutY="90.0" prefHeight="26.0" prefWidth="200.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label fx:id="outTimeSales" alignment="CENTER" layoutX="163.0" layoutY="130.0" prefHeight="21.0" prefWidth="200.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                              <Pane layoutX="14.0" layoutY="613.0" prefHeight="273.0" prefWidth="580.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                                 <children>
+                                    <Button layoutX="406.0" layoutY="137.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Pay" />
+                                    <Button layoutX="406.0" layoutY="186.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Bill print" />
+                                    <Label layoutX="28.0" layoutY="79.0" prefHeight="26.0" prefWidth="127.0" text="Discount : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <JFXTextField layoutX="190.0" layoutY="184.0" prefHeight="25.0" prefWidth="191.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></JFXTextField>
+                                    <Label layoutX="28.0" layoutY="190.0" prefHeight="26.0" prefWidth="127.0" text="Total : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label layoutX="28.0" layoutY="29.0" prefHeight="26.0" prefWidth="127.0" text="Sub-total : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Label layoutX="28.0" layoutY="134.0" prefHeight="26.0" prefWidth="127.0" text="Bonus fee : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <JFXTextField layoutX="190.0" layoutY="128.0" prefHeight="25.0" prefWidth="191.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></JFXTextField>
+                                    <JFXTextField disable="true" layoutX="190.0" layoutY="23.0" prefHeight="25.0" prefWidth="191.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></JFXTextField>
+                                    <JFXTextField layoutX="190.0" layoutY="73.0" prefHeight="25.0" prefWidth="191.0">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></JFXTextField>
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                              <Button layoutX="463.0" layoutY="568.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Load" />
+                              <TableView fx:id="tableViewOrderDish" layoutX="10.0" layoutY="247.0" onMouseClicked="#clickRowTableViewOrder" prefHeight="310.0" prefWidth="580.0">
+                                <columns>
+                                  <TableColumn fx:id="nameColOrder" prefWidth="197.0" text="Name" />
+                                  <TableColumn fx:id="quantityColOder" prefWidth="116.0" text="Quantity" />
+                                    <TableColumn fx:id="priceColOder" prefWidth="157.0" text="Price" />
+                                    <TableColumn fx:id="actionColOder" prefWidth="109.0" text="Action" />
+                                </columns>
+                              </TableView>
+                              <Label layoutX="12.0" layoutY="573.0" prefHeight="26.0" prefWidth="86.0" text="Quantity : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="180.0" layoutY="571.0" mnemonicParsing="false" onAction="#clickAddQuantitySales" prefHeight="31.0" prefWidth="68.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
+                              <TextField fx:id="txtQuantitySales" disable="true" layoutX="98.0" layoutY="571.0" prefHeight="31.0" prefWidth="68.0" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Pane layoutX="14.0" prefHeight="101.0" prefWidth="580.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                                 <children>
+                                    <JFXComboBox fx:id="cbbCategorySales" layoutX="116.0" layoutY="31.0" prefHeight="25.0" prefWidth="168.0" promptText="Category" />
+                                    <Label layoutX="23.0" layoutY="30.0" prefHeight="26.0" prefWidth="111.0" text="Category : ">
+                                       <font>
+                                          <Font name="System Bold" size="17.0" />
+                                       </font></Label>
+                                    <Button fx:id="btnSearchDish" layoutX="300.0" layoutY="31.0" mnemonicParsing="false" onAction="#clickSearchDish" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Search" />
+                                    <Button fx:id="btnSearchDishAll" layoutX="439.0" layoutY="31.0" mnemonicParsing="false" onAction="#clickSearchDishAll" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Search All" />
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </Pane>
+                              <ScrollPane layoutX="14.0" layoutY="126.0" prefHeight="760.0" prefWidth="580.0">
+                                 <content>
+                                    <FlowPane fx:id="flowPaneDish" layoutX="8.0" prefHeight="758.0" prefWidth="584.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-250.0" AnchorPane.topAnchor="0.0" />
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </Pane>
+                     </children>
+                  </GridPane>
+               </children>
+            </StackPane>
+            <StackPane fx:id="stackPaneListBill" layoutY="92.0" prefHeight="896.0" prefWidth="1800.0" visible="false">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="68.0" layoutY="26.0" prefHeight="85.0" prefWidth="735.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <Label layoutX="318.0" layoutY="28.0" prefHeight="17.0" prefWidth="40.0" text="To : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></Label>
+                              <DatePicker layoutX="109.0" layoutY="26.0" prefHeight="29.0" prefWidth="191.0" />
+                              <DatePicker layoutX="378.0" layoutY="26.0" prefHeight="29.0" prefWidth="191.0" />
+                              <Label layoutX="31.0" layoutY="28.0" prefHeight="26.0" prefWidth="68.0" text="From : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></Label>
+                              <Button layoutX="594.0" layoutY="24.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statistic" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <TableView layoutX="1113.0" layoutY="152.0" prefHeight="713.0" prefWidth="633.0">
+                           <columns>
+                              <TableColumn prefWidth="211.0" text="Category" />
+                              <TableColumn minWidth="0.0" prefWidth="235.0" text="Item" />
+                              <TableColumn minWidth="0.0" prefWidth="231.0" text="Quantity" />
+                           </columns>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </TableView>
+                        <TableView layoutX="533.0" layoutY="152.0" prefHeight="588.0" prefWidth="504.0">
+                           <columns>
+                              <TableColumn prefWidth="185.0" text="Table" />
+                              <TableColumn minWidth="0.0" prefWidth="318.0" text="Passengers" />
+                           </columns>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </TableView>
+                        <TableView layoutX="68.0" layoutY="152.0" prefHeight="420.0" prefWidth="394.0">
+                           <columns>
+                              <TableColumn prefWidth="157.0" text="User" />
+                              <TableColumn prefWidth="236.0" text="Quantity of bill" />
+                           </columns>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </TableView>
+                        <Button layoutX="1619.0" layoutY="52.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV Output" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+            <StackPane fx:id="stackPaneInOut" layoutY="91.0" prefHeight="896.0" prefWidth="1800.0" visible="false">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="51.0" layoutY="9.0" prefHeight="232.0" prefWidth="660.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="26.0" prefHeight="38.0" prefWidth="255.0" promptText="Outcome reason ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <Button layoutX="419.0" layoutY="28.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
+                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="161.0" prefHeight="38.0" prefWidth="255.0" promptText="User">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <Button layoutX="419.0" layoutY="97.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Edit" />
+                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="95.0" prefHeight="38.0" prefWidth="255.0" promptText="Outcome amount ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></JFXTextField>
+                              <Button layoutX="419.0" layoutY="163.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <TableView layoutX="51.0" layoutY="272.0" prefHeight="610.0" prefWidth="660.0">
+                          <columns>
+                            <TableColumn prefWidth="158.0" text="Date" />
+                            <TableColumn prefWidth="176.0" text="Outcome reason" />
+                              <TableColumn minWidth="0.0" prefWidth="148.0" text="Amount" />
+                              <TableColumn minWidth="0.0" prefWidth="177.0" text="User" />
+                          </columns>
+                        </TableView>
+                        <Pane layoutX="819.0" layoutY="9.0" prefHeight="113.0" prefWidth="926.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <DatePicker layoutX="389.0" layoutY="28.0" />
+                              <DatePicker layoutX="102.0" layoutY="28.0" />
+                              <Label layoutX="327.0" layoutY="29.0" prefHeight="26.0" prefWidth="40.0" text="To : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></Label>
+                              <Button layoutX="626.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statictis" />
+                              <Label layoutX="26.0" layoutY="29.0" prefHeight="26.0" prefWidth="86.0" text="From : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font></Label>
+                              <Button layoutX="775.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV output" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <TableView layoutX="819.0" layoutY="157.0" prefHeight="725.0" prefWidth="926.0">
+                          <columns>
+                            <TableColumn prefWidth="225.0" text="Date" />
+                            <TableColumn prefWidth="273.0" text="Total income" />
+                              <TableColumn prefWidth="274.0" text="Total outcome" />
+                              <TableColumn prefWidth="153.0" text="Left amount" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </children></StackPane>
+            <Button layoutX="1627.0" layoutY="40.0" mnemonicParsing="false" onAction="#clickComeBackManage" prefHeight="36.0" prefWidth="151.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Come back" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
