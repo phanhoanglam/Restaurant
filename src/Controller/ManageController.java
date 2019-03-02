@@ -51,9 +51,11 @@ public class ManageController implements Initializable {
     private Label lblRole;
     
     public String nameUser;
+    public String roleUser;
 
     public void decentralizationUserLogin(String role, String name) {
         nameUser = name;
+        roleUser = role;
         
         lblUser.setText(name);
         lblRole.setText(role);
@@ -88,7 +90,7 @@ public class ManageController implements Initializable {
                 scene.getStylesheets().add(getClass().getResource("/Css/Sales.css").toExternalForm());
                 SalesController salesController = loader.getController();
                 
-                salesController.receiveDataNameManager(nameUser);
+                salesController.receiveDataNameManager(nameUser, roleUser);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 Logger.getLogger(ManageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,10 +108,15 @@ public class ManageController implements Initializable {
         fadeTransition.setToValue(0);
         fadeTransition.setOnFinished((event1) -> {
             try {
-                Parent root = (StackPane) FXMLLoader.load(getClass().getResource("/FXML/Items.fxml"));
-                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/FXML/Items.fxml"));                
+                Parent parent = loader.load();
+                Scene scene = new Scene(parent);
                 scene.getStylesheets().add(getClass().getResource("/Css/Sales.css").toExternalForm());
-                Stage stage = (Stage) stackPaneManage.getScene().getWindow();
+                ItemsController itemsController = loader.getController();
+                
+                itemsController.receiveDataNameManager(nameUser, roleUser);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 Logger.getLogger(ManageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,10 +145,15 @@ public class ManageController implements Initializable {
         fadeTransition.setToValue(0);
         fadeTransition.setOnFinished((event1) -> {
             try {
-                Parent root = (StackPane) FXMLLoader.load(getClass().getResource("/FXML/Users.fxml"));
-                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/FXML/Users.fxml"));                
+                Parent parent = loader.load();
+                Scene scene = new Scene(parent);
                 scene.getStylesheets().add(getClass().getResource("/Css/Sales.css").toExternalForm());
-                Stage stage = (Stage) stackPaneManage.getScene().getWindow();
+                UsersController usersController = loader.getController();
+                
+                usersController.receiveDataNameManager(nameUser, roleUser);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 Logger.getLogger(ManageController.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,8 +5,9 @@
  */
 package Controller;
 
-import Model.MD5;
+import Util.MD5;
 import Model.UsersModel;
+import Util.Notification;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +30,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -51,6 +54,10 @@ public class LoginController implements Initializable {
     private TextField txtPass;
 
     public ArrayList<UsersModel> listUser;
+    @FXML
+    private StackPane stackPaneLogin;
+    @FXML
+    private AnchorPane anchorPaneLogin;
 
     public ArrayList<UsersModel> listUser() throws ClassNotFoundException, SQLException {
         listUser = new ArrayList<>();
@@ -75,7 +82,7 @@ public class LoginController implements Initializable {
         for (int i = 0; i < listUser.size(); i++) {
             if (listUser.get(i).getUser_name().equals(username) && listUser.get(i).getUser_pass().equals(MD5.md5(password))) {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/FXML/Manage.fxml"));                
+                loader.setLocation(getClass().getResource("/FXML/Manage.fxml"));
                 Parent parent = loader.load();
                 Scene scene = new Scene(parent);
                 scene.getStylesheets().add(getClass().getResource("/Css/Manage.css").toExternalForm());
@@ -90,10 +97,7 @@ public class LoginController implements Initializable {
             }
         }
         if (!loginStatus) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Login Warning");
-            alert.setContentText("login fail");
-            alert.showAndWait();
+            Notification.showMessageDialog(stackPaneLogin, anchorPaneLogin, "login fail");
         }
     }
 
@@ -110,7 +114,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Media media = new Media("file:///C:/Users/Administrator/Documents/NetBeansProjects/Restaurant_Project/src/images/videoView1.mp4");
+        Media media = new Media(getClass().getResource("/images/videoView1.mp4").toExternalForm());
         MediaPlayer player = new MediaPlayer(media);
         mediaView.setMediaPlayer(player);
         player.setVolume(0);

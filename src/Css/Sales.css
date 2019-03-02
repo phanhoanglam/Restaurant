@@ -1,3 +1,14 @@
+.paneLoginForm{
+    -fx-background-color:  #ffffff68;
+    -fx-background-radius:  70px;
+}
+.txtLoginForm{
+    -fx-text-fill:  #fff;
+}
+.btnLoginForm{
+    -fx-background-color:  #ff6666;
+    -fx-background-radius:  50px;
+}
 .buttonSales{
     -fx-font-weight: bold;
     -fx-background-color: #2196f3;
@@ -85,10 +96,28 @@
 }
 .buttonTables{
     -fx-background-radius: 20px;
+    -fx-border-color: black;
+    -fx-border-radius: 20px;
 }
 .buttonTablesStatus{
     -fx-background-radius: 20px;
     -fx-background-color: red;
+    -fx-border-color: black;
+    -fx-border-radius: 20px;
+}
+.buttonTablesReseve{
+    -fx-background-radius: 20px;
+    -fx-background-color: yellow;
+    -fx-border-color: black;
+    -fx-border-radius: 20px;
+}
+
+.buttonTablesStatus{
+    -fx-background-radius: 20px;
+    -fx-background-color: red;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-border-radius: 20px
 }
 .dialog-button{
     -fx-font-weight: bold;
@@ -108,4 +137,13 @@
     -fx-border-color: #2196f3;
     -fx-border-width: 1;
 }
+
+.buttonReserve{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 20px;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-background-color: linear-gradient(to bottom right, #2db84c, #4af597);
+}
+
 

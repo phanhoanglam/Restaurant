@@ -5,8 +5,9 @@
  */
 package Controller;
 
+import Util.Currency;
 import Model.ItemsModel;
-import Model.Notification;
+import Util.Notification;
 import Model.TableModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -19,10 +20,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.logging.Level;
@@ -38,6 +41,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,6 +51,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
@@ -61,6 +67,10 @@ import javax.imageio.ImageIO;
  * @author Administrator
  */
 public class ItemsController implements Initializable {
+
+    // biến dùng truyền dữ liệu
+    public String userName;
+    public String roleName;
 
     @FXML
     private StackPane stackPaneItems;
@@ -169,6 +179,11 @@ public class ItemsController implements Initializable {
         stackPaneStatistical.setVisible(false);
     }
 
+    public void receiveDataNameManager(String name, String role) {
+        userName = name;
+        roleName = role;
+    }
+
     @FXML
     private void clickComeBackManage(ActionEvent event) {
         FadeTransition fadeTransition = new FadeTransition();
@@ -178,10 +193,14 @@ public class ItemsController implements Initializable {
         fadeTransition.setToValue(0);
         fadeTransition.setOnFinished((event1) -> {
             try {
-                Parent root = (StackPane) FXMLLoader.load(getClass().getResource("/FXML/Manage.fxml"));
-                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/FXML/Manage.fxml"));
+                Parent parent = loader.load();
+                Scene scene = new Scene(parent);
                 scene.getStylesheets().add(getClass().getResource("/Css/Manage.css").toExternalForm());
-                Stage stage = (Stage) stackPaneItems.getScene().getWindow();
+                ManageController manageController = loader.getController();
+                manageController.decentralizationUserLogin(roleName, userName);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 Logger.getLogger(ManageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -217,7 +236,13 @@ public class ItemsController implements Initializable {
 
     @FXML
     private void clickCategorySearchNull(ActionEvent event) {
+        txtSearchItemName.setText("");
         cbbSearchCategory.setValue(null);
+    }
+
+    public static String toMoney(float amount) {
+        NumberFormat nf = NumberFormat.getInstance(new Locale("en", "US"));
+        return nf.format(amount);
     }
 
     private void showTableItems() throws ClassNotFoundException, SQLException {
@@ -234,7 +259,6 @@ public class ItemsController implements Initializable {
         st = conn.createStatement();
         rs = st.executeQuery(sql);
         while (rs.next()) {
-            System.out.println(hashmapTableItemsCategory.get(3));
             ItemsModel model = new ItemsModel(rs.getInt("storage_item_id"), hashmapTableItemsCategory.get(rs.getInt("category_id")), rs.getString("name"), rs.getFloat("price"), rs.getInt("quantity"), rs.getString("images"));
             listItems.add(model);
         }
@@ -325,8 +349,21 @@ public class ItemsController implements Initializable {
         return b;
     }
 
+    public static boolean isTextFieldtypeNumber(String tf) {
+        boolean b = false;
+        if (tf.matches("([0-9]+(\\.[0-9]+)?)+")) {
+            b = true;
+        }
+        return b;
+    }
+
     @FXML
     private void clickAddItems(ActionEvent event) throws ClassNotFoundException, SQLException {
+        String[] str = txtAmountItems.getText().split(",");
+        String amount = "";
+        for (String string : str) {
+            amount += string;
+        }
         ItemsModel model = checkName(txtItemName.getText());
         if (txtItemName.getText().trim().isEmpty() || txtItemQuantity.getText().trim().isEmpty() || txtAmountItems.getText().trim().isEmpty()) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Cannot be isEmpty");
@@ -340,7 +377,7 @@ public class ItemsController implements Initializable {
         } else if (!isTextFieldtypeNumber(txtItemQuantity)) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number");
             txtItemQuantity.setText("");
-        } else if (!isTextFieldtypeNumber(txtAmountItems)) {
+        } else if (!isTextFieldtypeNumber(amount)) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number");
             txtAmountItems.setText("");
         } else {
@@ -357,7 +394,7 @@ public class ItemsController implements Initializable {
                 pre.setInt(1, maxStorage_item_id + 1);
                 pre.setInt(2, hashmapComboboxCategory.get(cbbItemCategory.getValue()));
                 pre.setString(3, txtItemName.getText());
-                pre.setFloat(4, Float.parseFloat(txtAmountItems.getText()));
+                pre.setFloat(4, Float.parseFloat(amount));
                 pre.setInt(5, Integer.parseInt(txtItemQuantity.getText()));
                 pre.setString(6, f.getAbsolutePath());
                 rss = pre.executeUpdate();
@@ -391,7 +428,7 @@ public class ItemsController implements Initializable {
             txtStorageID.setText(String.valueOf(selectedItems.getStorage_item_id()));
             txtItemName.setText(selectedItems.getName());
             txtItemQuantity.setText(String.valueOf(selectedItems.getQuantity()));
-            txtAmountItems.setText(String.valueOf(selectedItems.getPrice()));
+            txtAmountItems.setText(String.valueOf(toMoney(selectedItems.getPrice())));
             linkImages.setText(selectedItems.getImages());
 
             Image image = new Image("file:///" + selectedItems.getImages());
@@ -448,21 +485,22 @@ public class ItemsController implements Initializable {
 
     @FXML
     private void clickEditItems(ActionEvent event) throws ClassNotFoundException, SQLException {
+        String[] str = txtAmountItems.getText().split(",");
+        String amount = "";
+        for (String string : str) {
+            amount += string;
+        }
         ItemsModel itemsModel = checkLinkImages(Integer.parseInt(txtStorageID.getText()));
-        ItemsModel model = checkName(txtItemName.getText());
         if (txtItemName.getText().trim().isEmpty() || txtItemQuantity.getText().trim().isEmpty() || txtAmountItems.getText().trim().isEmpty()) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Cannot be isEmpty");
         } else if (cbbItemCategory.getValue() == null) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select a category name");
         } else if (imageViewItems.getImage() == null) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select images");
-        } else if (model != null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Duplicate name");
-            txtItemName.setText("");
         } else if (!isTextFieldtypeNumber(txtItemQuantity)) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number");
             txtItemQuantity.setText("");
-        } else if (!isTextFieldtypeNumber(txtAmountItems)) {
+        } else if (!isTextFieldtypeNumber(amount)) {
             Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number");
             txtAmountItems.setText("");
         } else if (itemsModel.getName().equals(linkImages.getText())) {
@@ -472,7 +510,7 @@ public class ItemsController implements Initializable {
                 pre = conn.prepareStatement(sql);
                 pre.setInt(1, hashmapComboboxCategory.get(cbbItemCategory.getValue()));
                 pre.setString(2, txtItemName.getText());
-                pre.setFloat(3, Float.parseFloat(txtAmountItems.getText()));
+                pre.setFloat(3, Float.parseFloat(amount));
                 pre.setInt(4, Integer.parseInt(txtItemQuantity.getText()));
                 pre.setInt(5, Integer.parseInt(txtStorageID.getText()));
                 rss = pre.executeUpdate();
@@ -502,7 +540,7 @@ public class ItemsController implements Initializable {
                 pre = conn.prepareStatement(sql);
                 pre.setInt(1, hashmapComboboxCategory.get(cbbItemCategory.getValue()));
                 pre.setString(2, txtItemName.getText());
-                pre.setFloat(3, Float.parseFloat(txtAmountItems.getText()));
+                pre.setFloat(3, Float.parseFloat(amount));
                 pre.setInt(4, Integer.parseInt(txtItemQuantity.getText()));
                 pre.setString(5, f.getAbsolutePath());
                 pre.setInt(6, Integer.parseInt(txtStorageID.getText()));
@@ -526,7 +564,8 @@ public class ItemsController implements Initializable {
     }
 
     @FXML
-    private void clickResetItems(ActionEvent event) {
+    private void clickResetItems(ActionEvent event
+    ) {
         linkImages.setText("");
         txtItemName.setText("");
         txtItemQuantity.setText("");
@@ -536,7 +575,8 @@ public class ItemsController implements Initializable {
     }
 
     @FXML
-    private void clickCancelItems(ActionEvent event) {
+    private void clickCancelItems(ActionEvent event
+    ) {
         btnAddItems.setVisible(true);
         btnCancelItems.setVisible(false);
         btnDeleteItems.setVisible(false);
@@ -586,21 +626,31 @@ public class ItemsController implements Initializable {
             listTables.add(model);
         }
 
+        listTables.sort((o1, o2) -> {
+            return o1.getTableID() - o2.getTableID();
+        });
+
         for (int i = 0; i < listTables.size(); i++) {
             File file = new File("");
-            Image image = new Image("file:///"+file.getAbsolutePath() + "/src/images/table_icon.png");
+            Image image = new Image("file:///" + file.getAbsolutePath() + "/src/images/table_icon.png");
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(65);
             imageView.setFitHeight(80);
             Button button = new Button("Table " + listTables.get(i).getTableNo(), imageView);
             button.setPrefSize(200, 107);
             FlowPane.setMargin(button, new Insets(30, 15, 30, 30));
-            if (listTables.get(i).getStatus() == 0) {
-//                button.getStyleClass().add("buttonTables");
-            } else {
-                button.setStyle("-fx-background-color: red;-fx-border-color: black;\n"
-                        + "    -fx-border-width: 3;");
-//                button.getStyleClass().add("buttonTablesStatus");
+            switch (listTables.get(i).getStatus()) {
+                case 0:
+                    button.getStyleClass().add("buttonTables");
+                    break;
+                case 1:
+                    button.getStyleClass().add("buttonTablesStatus");
+                    break;
+                case 2:
+                    button.getStyleClass().add("buttonTablesReseve");
+                    break;
+                default:
+                    break;
             }
             listTableUser = flowPaneTable.getChildren();
             listTableUser.add(button);
@@ -620,7 +670,6 @@ public class ItemsController implements Initializable {
         pre.setInt(3, 0);
         rss = pre.executeUpdate();
         if (rss > 0) {
-//            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, txtNumberTable.getText(), "Insert thanh cong ");
             System.out.println("OK");
         }
         showTablesItems();
@@ -642,6 +691,23 @@ public class ItemsController implements Initializable {
         showTablesItems();
     }
 
+    @FXML
+    private void inputQuantity(KeyEvent event) {
+        String text = txtItemQuantity.getText();
+        text = text.replaceAll("[^\\d.]", "");
+        txtItemQuantity.setText(text);
+        int length = text.length();
+        txtItemQuantity.positionCaret(length);
+    }
+
+    @FXML
+    private void inputAmount(KeyEvent event) {
+        String parseToCurrency = Currency.parseToCurrency(txtAmountItems.getText());
+        txtAmountItems.setText(parseToCurrency);
+        int length = parseToCurrency.length();
+        txtAmountItems.positionCaret(length);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -652,5 +718,4 @@ public class ItemsController implements Initializable {
             Logger.getLogger(ItemsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

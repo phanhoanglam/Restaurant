@@ -5,7 +5,6 @@
  */
 package Model;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 
 /**
@@ -20,6 +19,7 @@ public class ItemsModel {
     private float price;
     private int quantity;
     private String images;
+    private String timeIn;
     private Button delete;
 
     public int getStorage_item_id() {
@@ -78,6 +78,14 @@ public class ItemsModel {
         this.delete = delete;
     }
 
+    public String getTimeIn() {
+        return timeIn;
+    }
+
+    public void setTimeIn(String timeIn) {
+        this.timeIn = timeIn;
+    }
+
     public ItemsModel(int storage_item_id, String category, String name, float price, int quantity, String images) {
         this.storage_item_id = storage_item_id;
         this.category = category;
@@ -87,7 +95,26 @@ public class ItemsModel {
         this.images = images;
     }
 
+    public ItemsModel(int storage_item_id, String category, String name, float price, int quantity, String images, String timeIn, Button delete) {
+        this.storage_item_id = storage_item_id;
+        this.category = category;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.images = images;
+        this.timeIn = timeIn;
+        this.delete = delete;
+    }
+
     public ItemsModel(String name, float price, int quantity, Button delete) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.delete = delete;
+    }
+
+    public ItemsModel(int storage_item_id, String name, float price, int quantity, Button delete) {
+        this.storage_item_id = storage_item_id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;

@@ -41,7 +41,7 @@
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font></JFXTextField>
-                  <JFXTextField fx:id="txtAge" labelFloat="true" layoutX="118.0" layoutY="371.0" prefHeight="46.0" prefWidth="289.0" promptText="Age">
+                  <JFXTextField fx:id="txtAge" labelFloat="true" layoutX="118.0" layoutY="371.0" onKeyReleased="#inputAge" prefHeight="46.0" prefWidth="289.0" promptText="Age">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font></JFXTextField>

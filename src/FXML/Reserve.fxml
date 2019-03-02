@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.validation.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneReserve" style="-fx-background-color: pink; -fx-border-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReserveController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="anchorPaneReserve" prefHeight="348.0" prefWidth="722.0">
+         <children>
+            <JFXComboBox fx:id="cbbTable" layoutX="399.0" layoutY="223.0" prefHeight="31.0" prefWidth="223.0" promptText="Table" />
+            <JFXTextField fx:id="txtCustomerName" labelFloat="true" layoutX="52.0" layoutY="29.0" prefHeight="46.0" prefWidth="223.0" promptText="customer name" style=": ;">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtCustomerPhone" labelFloat="true" layoutX="52.0" layoutY="118.0" onKeyReleased="#inputPhone" prefHeight="46.0" prefWidth="223.0" promptText="customer phone" style=": ;">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtCustomerAddress" labelFloat="true" layoutX="52.0" layoutY="208.0" prefHeight="46.0" prefWidth="223.0" promptText="customer address" style=": ;">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </JFXTextField>
+            <DatePicker fx:id="customerDate" layoutX="401.0" layoutY="44.0" />
+            <JFXButton layoutX="369.0" layoutY="291.0" onAction="#clickCancelReserve" prefHeight="31.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Cancel" />
+            <JFXButton layoutX="218.0" layoutY="291.0" onAction="#clickAddReserve" prefHeight="33.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Ok" />
+            <JFXTextField fx:id="txtCustomerTime" labelFloat="true" layoutX="399.0" layoutY="118.0" prefHeight="46.0" prefWidth="223.0" promptText="Time" style=": ;">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </JFXTextField>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import Model.MD5;
-import Model.Notification;
+import Util.MD5;
+import Util.Notification;
 import Model.UsersModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -38,6 +38,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,6 +49,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BoxBlur;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -60,6 +62,10 @@ import javafx.util.Duration;
  * @author Administrator
  */
 public class UsersController implements Initializable {
+
+    // biến dùng truyền dữ liệu
+    public String userName;
+    public String roleName;
 
     @FXML
     private StackPane stackPaneUsers;
@@ -135,16 +141,11 @@ public class UsersController implements Initializable {
     private Button btnResetUser;
     @FXML
     private Button btnCancelUser;
-    @FXML
-    private Label error_Username;
-    @FXML
-    private Label error_Fullname;
-    @FXML
-    private Label error_Pass;
-    @FXML
-    private Label error_Address;
-    @FXML
-    private Label error_Age;
+
+    public void receiveDataNameManager(String name, String role) {
+        userName = name;
+        roleName = role;
+    }
 
     @FXML
     private void clickComeBackManage(ActionEvent event) {
@@ -155,10 +156,14 @@ public class UsersController implements Initializable {
         fadeTransition.setToValue(0);
         fadeTransition.setOnFinished((event1) -> {
             try {
-                Parent root = (StackPane) FXMLLoader.load(getClass().getResource("/FXML/Manage.fxml"));
-                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/FXML/Manage.fxml"));
+                Parent parent = loader.load();
+                Scene scene = new Scene(parent);
                 scene.getStylesheets().add(getClass().getResource("/Css/Manage.css").toExternalForm());
-                Stage stage = (Stage) stackPaneUsers.getScene().getWindow();
+                ManageController manageController = loader.getController();
+                manageController.decentralizationUserLogin(roleName, userName);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 Logger.getLogger(ManageController.class.getName()).log(Level.SEVERE, null, ex);
@@ -220,7 +225,6 @@ public class UsersController implements Initializable {
             btnAddUser.setVisible(false);
             btnResetUser.setVisible(false);
 
-            
             txtUser.setText(selectedItem.getUser_name());
             txtUser.setDisable(true);
             txtFullname.setText(selectedItem.getFullname());
@@ -474,6 +478,15 @@ public class UsersController implements Initializable {
         tableUser.setItems(listUser);
     }
 
+    @FXML
+    private void inputAge(KeyEvent event) {
+        String text = txtAge.getText();
+        text = text.replaceAll("[^\\d.]", "");
+        txtAge.setText(text);
+        int length = text.length();
+        txtAge.positionCaret(length);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lblDate.textProperty().bind(taskDate.messageProperty());
@@ -524,4 +537,5 @@ public class UsersController implements Initializable {
             super.updateMessage(message);
         }
     };
+
 }

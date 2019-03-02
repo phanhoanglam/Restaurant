@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneGather" style="-fx-background-color: pink; -fx-border-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GatherController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="anchorPaneGather" prefHeight="348.0" prefWidth="722.0">
+         <children>
+            <JFXButton layoutX="369.0" layoutY="291.0" onAction="#clickCancelGather" prefHeight="31.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Cancel" />
+            <JFXButton layoutX="218.0" layoutY="291.0" onAction="#clickAddGather" prefHeight="33.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Ok" />
+            <Label fx:id="lblTable" layoutX="157.0" layoutY="134.0" prefHeight="17.0" prefWidth="96.0">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="285.0" layoutY="133.0" prefHeight="17.0" prefWidth="96.0" text="----------&gt;">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cbbTable" layoutX="408.0" layoutY="131.0" prefHeight="31.0" prefWidth="115.0" promptText="Table" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

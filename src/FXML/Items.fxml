@@ -42,12 +42,12 @@
                                  </font></JFXButton>
                               <Button fx:id="btnAddItems" layoutX="79.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickAddItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
                               <Button fx:id="btnDeleteItems" layoutX="149.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickDeleteItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" visible="false" />
-                              <JFXTextField fx:id="txtAmountItems" labelFloat="true" layoutX="79.0" layoutY="197.0" prefHeight="46.0" prefWidth="281.0" promptText="Amount">
+                              <JFXTextField fx:id="txtAmountItems" labelFloat="true" layoutX="79.0" layoutY="197.0" onKeyReleased="#inputAmount" prefHeight="46.0" prefWidth="281.0" promptText="Amount">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font></JFXTextField>
                               <Button fx:id="btnEditItems" layoutX="16.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickEditItems" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Edit" visible="false" />
-                              <JFXTextField fx:id="txtItemQuantity" labelFloat="true" layoutX="79.0" layoutY="117.0" prefHeight="46.0" prefWidth="281.0" promptText="Quantity">
+                              <JFXTextField fx:id="txtItemQuantity" labelFloat="true" layoutX="79.0" layoutY="117.0" onKeyReleased="#inputQuantity" prefHeight="46.0" prefWidth="281.0" promptText="Quantity">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font></JFXTextField>
@@ -80,7 +80,7 @@
                                     <Font name="System Bold" size="17.0" />
                                  </font></JFXTextField>
                               <JFXComboBox fx:id="cbbSearchCategory" layoutX="409.0" layoutY="33.0" prefHeight="38.0" prefWidth="213.0" promptText="Category" />
-                              <Button layoutX="647.0" layoutY="35.0" mnemonicParsing="false" onAction="#clickCategorySearchNull" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Category null" />
+                              <Button layoutX="647.0" layoutY="35.0" mnemonicParsing="false" onAction="#clickCategorySearchNull" prefHeight="36.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Refresh" />
                            </children>
                            <effect>
                               <DropShadow />
