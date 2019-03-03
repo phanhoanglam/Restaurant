@@ -1,25 +1,252 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f26fc57-1bfd-4348-bc76-1f3e1b8754c8">
-	<queryString language="SQL">
-		<![CDATA[SELECT 1]]>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b4ee30e1-a78c-43b8-8a02-93a90e00f6d4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset" uuid="fb87c45d-6389-4052-b14d-c1f8e7ef682b">
+		<parameter name="Table_id" class="java.lang.String"/>
+		<parameter name="Bill_id" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[Select Bills.bill_id, Bills.user_id, Bills.table_id, Bills.time_in, Bills.time_out, Bills.discount, Bills.bonus_fee, Bills.subtotal, Bills.total,
+Orders.order_id, OrderStorage.storage_item_id, OrderStorage.quantity, OrderStorage.price
+From Bills inner join Orders
+On Bills.bill_id = Orders.bill_id inner join OrderStorage 
+On Orders.order_id = OrderStorage.order_id Where Bills.table_id = $P{Table_id} and Bills.bill_id = $P{Bill_id}]]>
+		</queryString>
+		<field name="bill_id" class="java.lang.Integer"/>
+		<field name="user_id" class="java.lang.Integer"/>
+		<field name="table_id" class="java.lang.Integer"/>
+		<field name="time_in" class="java.sql.Timestamp"/>
+		<field name="time_out" class="java.sql.Timestamp"/>
+		<field name="discount" class="java.lang.Double"/>
+		<field name="bonus_fee" class="java.lang.Double"/>
+		<field name="subtotal" class="java.lang.Double"/>
+		<field name="total" class="java.lang.Double"/>
+		<field name="order_id" class="java.lang.Integer"/>
+		<field name="storage_item_id" class="java.lang.Integer"/>
+		<field name="quantity" class="java.lang.Integer"/>
+		<field name="price" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="Table_id" class="java.lang.String"/>
+	<parameter name="Bill_id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select OrderStorage.storage_item_id, OrderStorage.quantity, OrderStorage.price
+From Bills inner join Orders
+On Bills.bill_id = Orders.bill_id inner join OrderStorage 
+On Orders.order_id = OrderStorage.order_id Where Bills.table_id = 1 and Bills.bill_id = 1]]>
 	</queryString>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement x="114" y="45" width="303" height="37" uuid="c73a7109-59f0-49c3-a7a6-9dd0e486e09a"/>
+				<textElement>
+					<font fontName=".Vn3DH" size="24" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Restaurant Bills]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="417" y="12" width="138" height="20" uuid="365d3243-a67c-4ce8-a43b-7e42fdccf192"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="76" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="85" y="38" width="100" height="20" uuid="960d7dd0-0cf1-4f04-b254-bce74b2594b2"/>
+				<textFieldExpression><![CDATA[$P{Table_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="85" y="18" width="100" height="20" uuid="8a8adb05-66f4-499f-97fc-4f193c23fa3f"/>
+				<textFieldExpression><![CDATA[$P{Bill_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="38" width="71" height="20" uuid="4f7bef4a-6a62-4a31-a1b8-060d90585677"/>
+				<textElement>
+					<font size="13" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Table]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="18" width="71" height="20" uuid="882fe9da-9311-4a52-9212-0bd88dd8ebc6"/>
+				<textElement>
+					<font size="13" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Bill]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="368" y="18" width="100" height="20" uuid="c2f4c258-28e9-429f-a058-12d57fb147f3"/>
+				<textFieldExpression><![CDATA[$F{time_in}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="368" y="38" width="100" height="20" uuid="98feaae6-4141-4336-84b4-41407424c0d4"/>
+				<textFieldExpression><![CDATA[$F{time_out}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="22" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="138" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" positionType="Float" x="0" y="0" width="555" height="140" uuid="5b022167-daa6-4f28-9372-20e24a7c7d25"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset" uuid="725a32de-5da7-469f-a3a5-cb041cf1fb8a">
+						<datasetParameter name="Table_id">
+							<datasetParameterExpression><![CDATA[$P{Table_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Bill_id">
+							<datasetParameterExpression><![CDATA[$P{Bill_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="eb8ad83a-d0d5-4d26-acc6-f11abac63cc7">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="274" height="30" uuid="5829c740-15c1-4e53-82ff-08d242b54f93"/>
+								<text><![CDATA[Name of dish]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="274" height="20" uuid="881eb317-2f8f-4f9b-a1ef-093ac92d2ba1"/>
+								<textFieldExpression><![CDATA[$F{storage_item_id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3866c40b-a937-4a10-bb00-c19edadbd553">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="184" y="0" width="131" height="30" uuid="75c2e0d3-ebbd-4cab-b605-05f996ab2a72"/>
+								<text><![CDATA[Quantity]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="184" y="0" width="131" height="20" uuid="97ec366b-f139-4494-bcd3-30da0d8283cd"/>
+								<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="377" uuid="29531e5a-db67-4152-bd7a-bdb60ae559e6">
+						<jr:tableHeader style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table 1_TH" height="30" rowSpan="1"/>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="225" y="0" width="152" height="30" uuid="107c94f9-ca02-46eb-9c44-698ac9f06448"/>
+								<text><![CDATA[Price]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="225" y="0" width="152" height="20" uuid="0649e81b-730e-4bf6-8cea-9bad95a1daab"/>
+								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="166" splitType="Stretch">
+			<textField>
+				<reportElement positionType="Float" x="402" y="17" width="153" height="20" uuid="84a53e1c-068e-45e1-a4a9-e4574fd48478"/>
+				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="402" y="51" width="153" height="20" uuid="2ba129e2-bc24-4b9c-94f5-a02423a8b3e2"/>
+				<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="402" y="88" width="153" height="20" uuid="7977d009-9c5e-47fc-b3b5-d57adcb80986"/>
+				<textFieldExpression><![CDATA[$F{bonus_fee}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="402" y="122" width="153" height="20" uuid="8c628f0d-71ce-4b72-afd7-ad70a7b38a80"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>

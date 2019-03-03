@@ -257,12 +257,12 @@ public class UsersController implements Initializable {
         UsersModel model = checkUsername(txtUser.getText());
 
         if (txtUser.getText().trim().isEmpty() || txtPass.getText().trim().isEmpty() || txtFullname.getText().trim().isEmpty() || txtAddress.getText().trim().isEmpty() || txtAge.getText().trim().isEmpty()) {
-            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Cannot be isEmpty");
+            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "This field can not be empty.");
         } else if (!isTextFieldtypeNumber(txtAge)) {
-            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Age must be number");
+            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Age must be number.");
             txtAge.setText("");
         } else if (model != null) {
-            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Duplicate name");
+            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Duplicate name!");
             txtUser.setText("");
         } else {
             maxIDUser();
@@ -289,7 +289,7 @@ public class UsersController implements Initializable {
             pre.setString(9, lblDate.getText());
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Insert thanh cong ");
+                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Insert successfully.");
             }
             txtUser.setText("");
             txtFullname.setText("");
@@ -305,9 +305,9 @@ public class UsersController implements Initializable {
     @FXML
     private void clickEditUsers(ActionEvent event) throws ClassNotFoundException, SQLException, NoSuchAlgorithmException {
         if (txtUser.getText().trim().isEmpty() || txtFullname.getText().trim().isEmpty() || txtAddress.getText().trim().isEmpty() || txtAge.getText().trim().isEmpty()) {
-            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Cannot be isEmpty");
+            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "This field can not be empty.");
         } else if (!isTextFieldtypeNumber(txtAge)) {
-            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Age must be number");
+            Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Age must be number.");
             txtAge.setText("");
         } else if (txtPass.getText().trim().isEmpty() == true) {
             conn = Connect.ConnectDB.connectSQLServer();
@@ -330,7 +330,7 @@ public class UsersController implements Initializable {
             pre.setString(6, txtUser.getText());
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Update thanh cong");
+                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Update successfully.");
             }
             txtUser.setDisable(false);
 
@@ -371,7 +371,7 @@ public class UsersController implements Initializable {
             pre.setString(7, txtUser.getText());
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Update thanh cong");
+                Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Update successfully.");
             }
             btnCancelUser.setVisible(false);
             btnEditUser.setVisible(false);

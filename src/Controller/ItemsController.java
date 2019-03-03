@@ -366,19 +366,19 @@ public class ItemsController implements Initializable {
         }
         ItemsModel model = checkName(txtItemName.getText());
         if (txtItemName.getText().trim().isEmpty() || txtItemQuantity.getText().trim().isEmpty() || txtAmountItems.getText().trim().isEmpty()) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Cannot be isEmpty");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "This field can not be empty.");
         } else if (cbbItemCategory.getValue() == null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select a category name");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select a category name.");
         } else if (imageViewItems.getImage() == null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select images");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select images.");
         } else if (model != null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Duplicate name");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Duplicate name! Please enter another name.");
             txtItemName.setText("");
         } else if (!isTextFieldtypeNumber(txtItemQuantity)) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number.");
             txtItemQuantity.setText("");
         } else if (!isTextFieldtypeNumber(amount)) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number.");
             txtAmountItems.setText("");
         } else {
             try {
@@ -492,16 +492,16 @@ public class ItemsController implements Initializable {
         }
         ItemsModel itemsModel = checkLinkImages(Integer.parseInt(txtStorageID.getText()));
         if (txtItemName.getText().trim().isEmpty() || txtItemQuantity.getText().trim().isEmpty() || txtAmountItems.getText().trim().isEmpty()) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Cannot be isEmpty");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "This field can not be empty.");
         } else if (cbbItemCategory.getValue() == null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select a category name");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select a category name.");
         } else if (imageViewItems.getImage() == null) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select images");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Please select images.");
         } else if (!isTextFieldtypeNumber(txtItemQuantity)) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Quantity must be number.");
             txtItemQuantity.setText("");
         } else if (!isTextFieldtypeNumber(amount)) {
-            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number");
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Amount must be number.");
             txtAmountItems.setText("");
         } else if (itemsModel.getName().equals(linkImages.getText())) {
             try {

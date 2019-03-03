@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Model.CustomerModel;
+import Model.ItemsModel;
 import Util.Notification;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -27,6 +29,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -68,6 +73,51 @@ public class ReserveController implements Initializable {
     private AnchorPane anchorPaneReserve;
     @FXML
     private StackPane stackPaneReserve;
+    @FXML
+    private TableView<CustomerModel> tableViewCustomer;
+    @FXML
+    private TableColumn<String, CustomerModel> nameCol;
+    @FXML
+    private TableColumn<Integer, CustomerModel> phoneCol;
+    @FXML
+    private TableColumn<String, CustomerModel> addressCol;
+    @FXML
+    private TableColumn<Integer, CustomerModel> tableCol;
+    @FXML
+    private TableColumn<String, CustomerModel> timeCol;
+    private ObservableList<CustomerModel> listCustomer = FXCollections.observableArrayList();
+    private HashMap<Integer, Integer> hashmapTables = new HashMap<>();
+
+    public void selectTable() throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select table_id, table_no From Tables";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            hashmapTables.put(rs.getInt("table_id"), rs.getInt("table_no"));
+        }
+    }
+
+    private void showTableCustomer() throws ClassNotFoundException, SQLException {
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("customer_name"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("customer_phone"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("customer_address"));
+        tableCol.setCellValueFactory(new PropertyValueFactory<>("customer_table"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("datetime"));
+        
+        selectTable();
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select Customer.customer_name as name, Customer.customer_phone as phone, Customer.customer_address as address, Reservation.table_id as tables, Reservation.time_start as times\n"
+                + "From Customer inner join Reservation\n"
+                + "on Customer.customer_id = Reservation.customer_id";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            CustomerModel customerModel = new CustomerModel(rs.getString("name"), rs.getInt("phone"), rs.getString("address"), hashmapTables.get(rs.getInt("tables")), rs.getString("times"));
+            listCustomer.add(customerModel);
+        }
+        tableViewCustomer.setItems(listCustomer);
+    }
 
     private int maxIDReservation() throws ClassNotFoundException, SQLException {
         conn = Connect.ConnectDB.connectSQLServer();
@@ -103,13 +153,13 @@ public class ReserveController implements Initializable {
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String a = customerDate.getValue() + " " + txtCustomerTime.getText();
         String b = s.format(d);
-       
+
         Date date = new Date();
         SimpleDateFormat h = new SimpleDateFormat("yyyy-MM-dd");
         if (txtCustomerName.getText().trim().isEmpty() || txtCustomerPhone.getText().trim().isEmpty() || txtCustomerAddress.getText().trim().isEmpty() || txtCustomerTime.getText().trim().isEmpty() || customerDate.getValue() == null) {
-            Notification.showMessageDialog(stackPaneReserve, anchorPaneReserve, "Vui long nhap day du");
+            Notification.showMessageDialog(stackPaneReserve, anchorPaneReserve, "This field can not be empty.");
         } else if (a.compareTo(b) < 0) {
-            Notification.showMessageDialog(stackPaneReserve, anchorPaneReserve, "Nhap ngay sai ");
+            Notification.showMessageDialog(stackPaneReserve, anchorPaneReserve, "Error datetime.");
             customerDate.setValue(null);
             txtCustomerTime.setText("");
         } else {
@@ -172,11 +222,11 @@ public class ReserveController implements Initializable {
         txtCustomerPhone.positionCaret(length);
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             addValue_ComboboxTables();
+            showTableCustomer();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ReserveController.class.getName()).log(Level.SEVERE, null, ex);
         }

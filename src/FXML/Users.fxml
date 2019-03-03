@@ -72,15 +72,15 @@
             </Pane>
             <TableView fx:id="tableUser" layoutX="595.0" layoutY="148.0" onMouseClicked="#clickRowTable" prefHeight="795.0" prefWidth="1162.0">
                <columns>
-                  <TableColumn fx:id="noCol" prefWidth="57.0" text="No" />
-                  <TableColumn fx:id="nameCol" prefWidth="153.0" text="Username" />
+                  <TableColumn fx:id="noCol" prefWidth="57.0" styleClass="tableView" text="No" />
+                  <TableColumn fx:id="nameCol" prefWidth="153.0" styleClass="tableView" text="Username" />
                   <TableColumn fx:id="passCol" prefWidth="111.0" text="Password" visible="false" />
-                  <TableColumn fx:id="fullnameCol" prefWidth="181.0" text="Fullname" />
-                  <TableColumn fx:id="addressCol" prefWidth="166.0" text="Address" />
-                  <TableColumn fx:id="ageCol" prefWidth="70.0" text="Age" />
-                  <TableColumn fx:id="genderCol" prefWidth="119.0" text="Gender" />
-                  <TableColumn fx:id="positionCol" prefWidth="141.0" text="Position" />
-                  <TableColumn fx:id="dateCol" prefWidth="274.0" text="Date start" />
+                  <TableColumn fx:id="fullnameCol" prefWidth="181.0" styleClass="tableView" text="Fullname" />
+                  <TableColumn fx:id="addressCol" prefWidth="166.0" styleClass="tableView" text="Address" />
+                  <TableColumn fx:id="ageCol" prefWidth="70.0" styleClass="tableView" text="Age" />
+                  <TableColumn fx:id="genderCol" prefWidth="119.0" styleClass="tableView" text="Gender" />
+                  <TableColumn fx:id="positionCol" prefWidth="141.0" styleClass="tableView" text="Position" />
+                  <TableColumn fx:id="dateCol" prefWidth="274.0" styleClass="tableView" text="Date start" />
                </columns>
                <effect>
                   <DropShadow />

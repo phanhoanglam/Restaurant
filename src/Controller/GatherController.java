@@ -64,7 +64,7 @@ public class GatherController implements Initializable {
     @FXML
     private void clickAddGather(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (cbbTable.getValue() == null) {
-            Notification.showMessageDialog(stackPaneGather, anchorPaneGather, "Chon ban muon gop");
+            Notification.showMessageDialog(stackPaneGather, anchorPaneGather, "Please enter table you want to gather.");
         } else {
             hasMapTables();
             

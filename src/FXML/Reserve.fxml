@@ -9,34 +9,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane fx:id="stackPaneReserve" style="-fx-background-color: pink; -fx-border-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReserveController">
+<StackPane fx:id="stackPaneReserve" prefHeight="724.0" prefWidth="1011.0" style="-fx-background-color: pink; -fx-border-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReserveController">
    <children>
-      <AnchorPane id="AnchorPane" fx:id="anchorPaneReserve" prefHeight="348.0" prefWidth="722.0">
+      <AnchorPane id="AnchorPane" fx:id="anchorPaneReserve" prefHeight="1560.0" prefWidth="722.0">
          <children>
-            <JFXComboBox fx:id="cbbTable" layoutX="399.0" layoutY="223.0" prefHeight="31.0" prefWidth="223.0" promptText="Table" />
-            <JFXTextField fx:id="txtCustomerName" labelFloat="true" layoutX="52.0" layoutY="29.0" prefHeight="46.0" prefWidth="223.0" promptText="customer name" style=": ;">
+            <JFXComboBox fx:id="cbbTable" layoutX="688.0" layoutY="258.0" prefHeight="31.0" prefWidth="223.0" promptText="Table" />
+            <JFXTextField fx:id="txtCustomerName" labelFloat="true" layoutX="341.0" layoutY="64.0" prefHeight="46.0" prefWidth="223.0" promptText="customer name" style=": ;">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtCustomerPhone" labelFloat="true" layoutX="52.0" layoutY="118.0" onKeyReleased="#inputPhone" prefHeight="46.0" prefWidth="223.0" promptText="customer phone" style=": ;">
+            <JFXTextField fx:id="txtCustomerPhone" labelFloat="true" layoutX="341.0" layoutY="153.0" onKeyReleased="#inputPhone" prefHeight="46.0" prefWidth="223.0" promptText="customer phone" style=": ;">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </JFXTextField>
-            <JFXTextField fx:id="txtCustomerAddress" labelFloat="true" layoutX="52.0" layoutY="208.0" prefHeight="46.0" prefWidth="223.0" promptText="customer address" style=": ;">
+            <JFXTextField fx:id="txtCustomerAddress" labelFloat="true" layoutX="341.0" layoutY="243.0" prefHeight="46.0" prefWidth="223.0" promptText="customer address" style=": ;">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </JFXTextField>
-            <DatePicker fx:id="customerDate" layoutX="401.0" layoutY="44.0" />
-            <JFXButton layoutX="369.0" layoutY="291.0" onAction="#clickCancelReserve" prefHeight="31.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Cancel" />
-            <JFXButton layoutX="218.0" layoutY="291.0" onAction="#clickAddReserve" prefHeight="33.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Ok" />
-            <JFXTextField fx:id="txtCustomerTime" labelFloat="true" layoutX="399.0" layoutY="118.0" prefHeight="46.0" prefWidth="223.0" promptText="Time" style=": ;">
+            <DatePicker fx:id="customerDate" layoutX="690.0" layoutY="79.0" />
+            <JFXButton layoutX="688.0" layoutY="326.0" onAction="#clickCancelReserve" prefHeight="31.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Cancel" />
+            <JFXButton layoutX="453.0" layoutY="326.0" onAction="#clickAddReserve" prefHeight="33.0" prefWidth="115.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Ok" />
+            <JFXTextField fx:id="txtCustomerTime" labelFloat="true" layoutX="688.0" layoutY="153.0" prefHeight="46.0" prefWidth="223.0" promptText="Time" style=": ;">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </JFXTextField>
+            <TableView fx:id="tableViewCustomer" layoutY="409.0" prefHeight="395.0" prefWidth="1286.0" style="-fx-alignment: CENTER;">
+               <columns>
+                  <TableColumn fx:id="nameCol" prefWidth="310.0" styleClass="tableView" text="Name" />
+                  <TableColumn fx:id="phoneCol" minWidth="0.0" prefWidth="224.0" styleClass="tableView" text="Phone" />
+                  <TableColumn fx:id="addressCol" prefWidth="319.0" styleClass="tableView" text="Address" />
+                  <TableColumn fx:id="tableCol" prefWidth="133.0" styleClass="tableView" text="Table" />
+                  <TableColumn fx:id="timeCol" prefWidth="299.0" styleClass="tableView" text="Time" />
+               </columns>
+            </TableView>
          </children>
       </AnchorPane>
    </children>

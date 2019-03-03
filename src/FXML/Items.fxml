@@ -22,10 +22,10 @@
                   <Image url="@../images/view.jpg" />
                </image>
             </ImageView>
-            <JFXButton layoutX="630.0" layoutY="38.0" onAction="#clickItems" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Items" textFill="#15131b" underline="true" />
+            <JFXButton layoutX="630.0" layoutY="38.0" onAction="#clickItems" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Item" textFill="#15131b" underline="true" />
             <JFXButton layoutX="990.0" layoutY="38.0" onAction="#clickStatistical" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Statistical" textFill="WHITE" underline="true" />
             <JFXButton layoutX="810.0" layoutY="38.0" onAction="#clickTable" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Table" textFill="WHITE" underline="true" />
-            <StackPane fx:id="stackPaneItem" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0">
+            <StackPane fx:id="stackPaneItem" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -62,9 +62,9 @@
                         <TableView fx:id="tableItems" layoutX="790.0" layoutY="104.0" onMouseClicked="#clickRowTableItems" prefHeight="768.0" prefWidth="984.0">
                            <columns>
                               <TableColumn fx:id="storageIdCol" prefWidth="200.0" text="storage_item_id" visible="false" />
-                              <TableColumn fx:id="categoryCol" prefWidth="325.0" text="Category" />
-                              <TableColumn fx:id="nameCol" prefWidth="337.0" text="Item name" />
-                              <TableColumn fx:id="quantityCol" minWidth="0.0" prefWidth="321.0" text="Left quantity" />
+                              <TableColumn fx:id="categoryCol" prefWidth="325.0" styleClass="tableView" text="Category" />
+                              <TableColumn fx:id="nameCol" prefWidth="337.0" styleClass="tableView" text="Item name" />
+                              <TableColumn fx:id="quantityCol" minWidth="0.0" prefWidth="321.0" styleClass="tableView" text="Left quantity" />
                               <TableColumn fx:id="priceCol" prefWidth="75.0" text="price" visible="false" />
                               <TableColumn fx:id="imagesCol" prefWidth="75.0" text="images" visible="false" />
                            </columns>
@@ -111,7 +111,42 @@
                      </children>
                   </AnchorPane>
                </children></StackPane>
-            <StackPane fx:id="stackPaneStatistical" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false" />
+            <StackPane fx:id="stackPaneStatistical" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <Pane layoutX="178.0" layoutY="14.0" prefHeight="113.0" prefWidth="926.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                           <children>
+                              <DatePicker layoutX="389.0" layoutY="28.0" />
+                              <DatePicker layoutX="102.0" layoutY="28.0" />
+                              <Label layoutX="327.0" layoutY="29.0" prefHeight="26.0" prefWidth="40.0" text="To : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="626.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statictis" />
+                              <Label layoutX="26.0" layoutY="29.0" prefHeight="26.0" prefWidth="86.0" text="From : ">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="775.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV output" />
+                           </children>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Pane>
+                        <TableView layoutX="178.0" layoutY="148.0" prefHeight="712.0" prefWidth="926.0">
+                           <columns>
+                              <TableColumn prefWidth="225.0" styleClass="tableView" text="Date" />
+                              <TableColumn prefWidth="273.0" styleClass="tableView" text="Total income" />
+                              <TableColumn prefWidth="274.0" styleClass="tableView" text="Total outcome" />
+                              <TableColumn prefWidth="153.0" styleClass="tableView" text="Left amount" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </children></StackPane>
             <Button layoutX="1595.0" layoutY="34.0" mnemonicParsing="false" onAction="#clickComeBackManage" prefHeight="36.0" prefWidth="151.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Come back" />
             <Pane layoutX="1194.0" layoutY="-1.0" prefHeight="78.0" prefWidth="272.0" style="-fx-background-color: black;">
                <children>

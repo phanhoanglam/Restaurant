@@ -3,6 +3,7 @@ package Controller;
 import Util.Currency;
 import static Controller.ItemsController.isTextFieldtypeNumber;
 import Model.BillsModel;
+import Model.OutcomeModel;
 import Model.ItemsModel;
 import Util.Notification;
 import Model.OrderModel;
@@ -11,7 +12,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +29,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -54,6 +58,7 @@ import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -65,6 +70,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -188,16 +194,53 @@ public class SalesController implements Initializable {
     @FXML
     private TableView<?> listBillCategoryListBill;
 
+    private ObservableList<BillsModel> listTablepassengers = FXCollections.observableArrayList();
     @FXML
-    private TableView<?> tablePassengersListBill;
+    private TableView<BillsModel> tablePassengersListBill;
+    @FXML
+    private TableColumn<BillsModel, String> tableBillsCol;
+    @FXML
+    private TableColumn<BillsModel, Integer> passengersCol;
 
     private ObservableList<BillsModel> listTableUserListBill = FXCollections.observableArrayList();
     @FXML
     private TableView<BillsModel> tableUserListBill;
     @FXML
-    private TableColumn<BillsModel, String> userCol;
+    private TableColumn<BillsModel, String> userBillCol;
     @FXML
     private TableColumn<BillsModel, Integer> quantityOfBillCol;
+
+    @FXML
+    private JFXTextField txtOutcomeReason;
+    @FXML
+    private JFXTextField txtOutcomeAmount;
+    @FXML
+    private TableView<OutcomeModel> tableViewInAndOut;
+    @FXML
+    private TableColumn<OutcomeModel, String> dateCol;
+    @FXML
+    private TableColumn<OutcomeModel, String> outcomeReasonCol;
+    @FXML
+    private TableColumn<OutcomeModel, Integer> OutcomeIDCol;
+    @FXML
+    private TableColumn<OutcomeModel, Float> amountCol;
+    @FXML
+    private TableColumn<OutcomeModel, String> userCol;
+    private ObservableList<OutcomeModel> listTableAmount = FXCollections.observableArrayList();
+    
+    @FXML
+    private Button btnAddOutcome;
+    @FXML
+    private Button btnEditOutcome;
+    @FXML
+    private Button btnDeleteOutcome;
+    @FXML
+    private Button btnResetOutcome;
+    @FXML
+    private Button btnCancelOutcome;
+    @FXML
+    private Label lblamountIDOutcome;
+    
 
     @FXML
     private void clickListTable(ActionEvent event) {
@@ -340,6 +383,13 @@ public class SalesController implements Initializable {
 
             button.setOnMouseClicked((event) -> {
                 try {
+                    txtQuantitySales.setText("");
+                    txtQuantitySales.setDisable(true);
+
+                    subTotalSales.setText("");
+                    discountSales.setText("");
+                    bonusFeeSales.setText("");
+                    totalSales.setText("");
                     selectTable();
                     selectStorage();
 
@@ -358,6 +408,7 @@ public class SalesController implements Initializable {
                             quantityColOder.setCellValueFactory(new PropertyValueFactory<>("quantity"));
                             priceColOder.setCellValueFactory(new PropertyValueFactory<>("price"));
                             actionColOder.setCellValueFactory(new PropertyValueFactory<>("delete"));
+
                             conn = Connect.ConnectDB.connectSQLServer();
                             int order_id = 0;
                             sql = "select order_id, bill_id, table_id, time_in from Orders Where table_id = ? and bill_id = 0";
@@ -459,13 +510,16 @@ public class SalesController implements Initializable {
             fXButton.setTooltip(tooltip);
             fXButton.setOnMouseClicked((event) -> {
                 if (tableNoSales.getText().isEmpty()) {
-                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please select a table");
+                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose a table.");
                 } else if (intimeSales.getText().isEmpty()) {
-                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chưa click intime");
+                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please click Start button.");
                 } else if (!outTimeSales.getText().isEmpty()) {
-                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Da hoan thanh khong the goi mon");
+                    Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Can not order.");
                 } else {
                     try {
+                        txtQuantitySales.setText("");
+                        txtQuantitySales.setDisable(true);
+
                         nameColOrder.setCellValueFactory(new PropertyValueFactory<>("name"));
                         quantityColOder.setCellValueFactory(new PropertyValueFactory<>("quantity"));
                         priceColOder.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -555,31 +609,38 @@ public class SalesController implements Initializable {
     @FXML
     private void clickAddQuantitySales(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (txtQuantitySales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua nhapp gia tri quantity");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please input quantity.");
         } else if (!isTextFieldtypeNumber(txtQuantitySales)) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Vui long nhap so");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please enter number.");
             txtQuantitySales.setText("");
         } else {
-            nameColOrder.setCellValueFactory(new PropertyValueFactory<>("name"));
-            quantityColOder.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-            priceColOder.setCellValueFactory(new PropertyValueFactory<>("price"));
-            actionColOder.setCellValueFactory(new PropertyValueFactory<>("delete"));
-
-            Button button = new Button("Delete");
-            button.setPrefWidth(109);
-            button.getStyleClass().add("deletebtn");
-            button.setOnMouseClicked((event1) -> {
-                tableViewOrderDish.getItems().removeAll(tableViewOrderDish.getSelectionModel().getSelectedItems());
-            });
-
-            ItemsModel selectedItem = tableViewOrderDish.getSelectionModel().getSelectedItem();
-            tableViewOrderDish.getItems().removeAll(selectedItem);
-            ItemsModel itemsModel = new ItemsModel(selectedItem.getStorage_item_id(), selectedItem.getName(),
-                    selectedItem.getPrice() * Integer.parseInt(txtQuantitySales.getText()),
-                    Integer.parseInt(txtQuantitySales.getText()), button);
-            listTableViewDishOrder.add(itemsModel);
-            tableViewOrderDish.setItems(listTableViewDishOrder);
             txtQuantitySales.setText("");
+            txtQuantitySales.setDisable(true);
+            ItemsModel selectedItem = tableViewOrderDish.getSelectionModel().getSelectedItem();
+            checkQuantityDish(selectedItem.getStorage_item_id());
+            if (!(quantityDishLeft < (Integer.parseInt(txtQuantitySales.getText()) + selectedItem.getQuantity()))) {
+                nameColOrder.setCellValueFactory(new PropertyValueFactory<>("name"));
+                quantityColOder.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+                priceColOder.setCellValueFactory(new PropertyValueFactory<>("price"));
+                actionColOder.setCellValueFactory(new PropertyValueFactory<>("delete"));
+
+                Button button = new Button("Delete");
+                button.setPrefWidth(109);
+                button.getStyleClass().add("deletebtn");
+                button.setOnMouseClicked((event1) -> {
+                    tableViewOrderDish.getItems().removeAll(tableViewOrderDish.getSelectionModel().getSelectedItems());
+                });
+
+                tableViewOrderDish.getItems().removeAll(selectedItem);
+                ItemsModel itemsModel = new ItemsModel(selectedItem.getStorage_item_id(), selectedItem.getName(),
+                        selectedItem.getPrice() * Integer.parseInt(txtQuantitySales.getText()),
+                        Integer.parseInt(txtQuantitySales.getText()) + selectedItem.getQuantity(), button);
+                listTableViewDishOrder.add(itemsModel);
+                tableViewOrderDish.setItems(listTableViewDishOrder);
+                txtQuantitySales.setText("");
+            } else {
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, quantityDishLeft + "left");
+            }
         }
     }
 
@@ -629,30 +690,77 @@ public class SalesController implements Initializable {
         }
     }
 
+    int quantityDish;
+
+    public void deleteQuantityDishDB(int storage_item_id, int quantity) throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select quantity From Storage Where storage_item_id = ?";
+        pre = conn.prepareStatement(sql);
+        pre.setInt(1, storage_item_id);
+        rs = pre.executeQuery();
+        if (rs.next()) {
+            quantityDish = rs.getInt("quantity");
+        }
+
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Update Storage set quantity = ? - ? Where storage_item_id = ?";
+        pre = conn.prepareStatement(sql);
+        pre.setInt(1, quantityDish);
+        pre.setInt(2, quantity);
+        pre.setInt(3, storage_item_id);
+        rss = pre.executeUpdate();
+        showDishSales();
+    }
+
+    int quantityDishLeft;
+
+    public void checkQuantityDish(int storage_item_id) throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select quantity From Storage Where storage_item_id = ?";
+        pre = conn.prepareStatement(sql);
+        pre.setInt(1, storage_item_id);
+        rs = pre.executeQuery();
+        if (rs.next()) {
+            quantityDishLeft = rs.getInt("quantity");
+        }
+    }
+
     @FXML
     private void clickLoadOrder(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (!tableNoSales.getText().isEmpty()) {
+            txtQuantitySales.setText("");
+            txtQuantitySales.setDisable(true);
             String[] split = tableNoSales.getText().split("\\s");
             String tableNo = split[1];
             OrderModel model = checkOrderTable(Integer.parseInt(tableNo));
             if (tableViewOrderDish.getItems().isEmpty()) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Vui long chon mon an");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose food or drink.");
             } else if (model != null) {
                 for (int i = 0; i < listTableViewDishOrder.size(); i++) {
-                    if (listTableViewDishOrder.get(i).getStorage_item_id() != 0) {
-                        maxIDOrderStorage();
-                        conn = Connect.ConnectDB.connectSQLServer();
-                        sql = "Insert into OrderStorage values(?,?,?,?,?)";
-                        pre = conn.prepareStatement(sql);
-                        pre.setInt(1, maxIDOrderStorage + 1);
-                        pre.setInt(2, listTableViewDishOrder.get(i).getStorage_item_id());
-                        pre.setInt(3, listTableViewDishOrder.get(i).getQuantity());
-                        pre.setFloat(4, listTableViewDishOrder.get(i).getPrice());
-                        pre.setInt(5, model.getOrder_id());
-                        rss = pre.executeUpdate();
+                    checkQuantityDish(status);
+                    if (!(quantityDishLeft < listTableViewDishOrder.get(i).getQuantity())) {
+                        if (listTableViewDishOrder.get(i).getStorage_item_id() != 0) {
+                            maxIDOrderStorage();
+                            conn = Connect.ConnectDB.connectSQLServer();
+                            sql = "Insert into OrderStorage values(?,?,?,?,?)";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, maxIDOrderStorage + 1);
+                            pre.setInt(2, listTableViewDishOrder.get(i).getStorage_item_id());
+                            pre.setInt(3, listTableViewDishOrder.get(i).getQuantity());
+                            pre.setFloat(4, listTableViewDishOrder.get(i).getPrice());
+                            pre.setInt(5, model.getOrder_id());
+                            rss = pre.executeUpdate();
+
+                            listTableViewDishOrder.get(i).getDelete().setVisible(false);
+                            deleteQuantityDishDB(listTableViewDishOrder.get(i).getStorage_item_id(), listTableViewDishOrder.get(i).getQuantity());
+                        }
+                    } else {
+                        Notification.showMessageDialog(stackPaneSales, anchorPaneSales, quantityDishLeft + "left");
                     }
                 }
             } else {
+                txtQuantitySales.setText("");
+                txtQuantitySales.setDisable(true);
                 maxIDOrder();
                 conn = Connect.ConnectDB.connectSQLServer();
                 sql = "Insert into Orders values(?,?,?,?)";
@@ -675,10 +783,13 @@ public class SalesController implements Initializable {
                     pre.setFloat(4, listTableViewDishOrder.get(i).getPrice());
                     pre.setInt(5, order_id);
                     rss = pre.executeUpdate();
+
+                    listTableViewDishOrder.get(i).getDelete().setVisible(false);
+                    deleteQuantityDishDB(listTableViewDishOrder.get(i).getStorage_item_id(), listTableViewDishOrder.get(i).getQuantity());
                 }
             }
         } else {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Vui long chon ban");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose table.");
         }
     }
 
@@ -689,13 +800,13 @@ public class SalesController implements Initializable {
     @FXML
     private void clickGatherSales(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
         if (tableNoSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chon table truoc khi gop ban");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose table before gathering.");
         } else {
             String[] split = tableNoSales.getText().split("\\s");
             String tableNo = split[1];
             checkTablesStatus(Integer.parseInt(tableNo));
             if (status == 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Ban con trong khong the gop");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Empty table can not be gathered.");
             } else {
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
@@ -721,6 +832,7 @@ public class SalesController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/Reserve.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/Css/Sales.css").toExternalForm());
         stage.setResizable(false);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -730,13 +842,13 @@ public class SalesController implements Initializable {
     @FXML
     private void clickTransferSales(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
         if (tableNoSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chon table truoc khi chuyen ban");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose table before transfering.");
         } else {
             String[] split = tableNoSales.getText().split("\\s");
             String tableNo = split[1];
             checkTablesStatus(Integer.parseInt(tableNo));
             if (status == 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Ban con trong khong the chuyen");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Empty table can not be transfered.");
             } else {
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
@@ -759,15 +871,15 @@ public class SalesController implements Initializable {
     @FXML
     private void clickCancelSales(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (tableNoSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please select a table");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose a table.");
         } else if (!tableViewOrderDish.getItems().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Da order mon khong the Cancel");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Can not cancel after ordering.");
         } else if (!outTimeSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Da hoan thanh khong the cancel");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Can not cancel after finishing.");
         } else {
             String[] split = tableNoSales.getText().split("\\s");
             String tableNo = split[1];
-            Notification.showCancelDialog(stackPaneSales, anchorPaneSales, "Ban chac chan cancel", tableNoSales, intimeSales, tableNo);
+            Notification.showCancelDialog(stackPaneSales, anchorPaneSales, "Do you want to cancel?", tableNoSales, intimeSales, tableNo);
         }
     }
 
@@ -775,16 +887,16 @@ public class SalesController implements Initializable {
     private void clickFinishSales(ActionEvent event
     ) {
         if (tableNoSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please select a table");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose a table.");
         } else if (tableViewOrderDish.getItems().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua goi mon");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please order food or drink.");
         } else if (intimeSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua click intime");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please click Start button.");
         } else if (!outTimeSales.getText().isEmpty()) {
-            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "You want to reset outtime?", outTimeSales, txtQuantitySales);
+            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "Do you want to reset outtime?", outTimeSales, txtQuantitySales);
             txtQuantitySales.setDisable(true);
         } else {
-            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "Ban co muon hoan thanh", outTimeSales, txtQuantitySales);
+            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "Do you want to finish?", outTimeSales, txtQuantitySales);
             txtQuantitySales.setDisable(true);
         }
     }
@@ -792,13 +904,13 @@ public class SalesController implements Initializable {
     @FXML
     private void clickStartSales(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (tableNoSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please select a table");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose a table.");
         } else if (!tableViewOrderDish.getItems().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Da goi mon khong the start intime");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Can not click Start button after ordering.");
         } else if (!outTimeSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Da hoan thanh khong thẻ start ");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Can not click Start button after finishing.");
         } else if (!intimeSales.getText().isEmpty()) {
-            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "You want to reset intime?", intimeSales, null);
+            Notification.showTimeDialog(stackPaneSales, anchorPaneSales, "Do you want to reset intime?", intimeSales, null);
         } else {
             String[] split = tableNoSales.getText().split("\\s");
             String tableNo = split[1];
@@ -821,7 +933,7 @@ public class SalesController implements Initializable {
     private void clickPaySales(ActionEvent event
     ) {
         if (subTotalSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua pay subtotal");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please pay subtotal.");
         } else if (discountSales.getText().isEmpty() && bonusFeeSales.getText().isEmpty()) {
             String[] split = subTotalSales.getText().split(",");
             String str = "";
@@ -884,15 +996,19 @@ public class SalesController implements Initializable {
     @FXML
     private void clickPaySubtotalSales(ActionEvent event
     ) {
-        if (tableViewOrderDish.getItems().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chon mon an");
+        if (outTimeSales.getText().isEmpty()) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Pleaes click Finish button.");
         } else {
-            float tong = 0;
-            System.out.println(listTableViewDishOrder.size());
-            for (int i = 0; i < listTableViewDishOrder.size(); i++) {
-                tong += listTableViewDishOrder.get(i).getPrice();
+            if (tableViewOrderDish.getItems().isEmpty()) {
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please choose food or drink.");
+            } else {
+                float tong = 0;
+                System.out.println(listTableViewDishOrder.size());
+                for (int i = 0; i < listTableViewDishOrder.size(); i++) {
+                    tong += listTableViewDishOrder.get(i).getPrice();
+                }
+                subTotalSales.setText(String.valueOf(Currency.toMoney(tong)));
             }
-            subTotalSales.setText(String.valueOf(Currency.toMoney(tong)));
         }
     }
 
@@ -910,11 +1026,11 @@ public class SalesController implements Initializable {
     @FXML
     private void clickBillPrint(ActionEvent event) throws ClassNotFoundException, SQLException, JRException {
         if (subTotalSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua click subtotal");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please click subtotal.");
         } else if (totalSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua click Pay");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please click Pay.");
         } else if (outTimeSales.getText().isEmpty()) {
-            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Chua outime");
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please click Finish.");
         } else if (discountSales.getText().isEmpty() && bonusFeeSales.getText().isEmpty()) {
             selectUser();
             selectTable();
@@ -949,7 +1065,7 @@ public class SalesController implements Initializable {
 
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Them bills thanh cong");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Bill added successfully.");
             }
 
             sql = "Update Orders set bill_id = ?";
@@ -1011,7 +1127,7 @@ public class SalesController implements Initializable {
 
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Them bills thanh cong");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Bill added successfully.");
             }
 
             sql = "Update Orders set bill_id = ?";
@@ -1073,7 +1189,7 @@ public class SalesController implements Initializable {
 
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Them bills thanh cong");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Bill added successfully.");
             }
 
             sql = "Update Orders set bill_id = ?";
@@ -1141,7 +1257,7 @@ public class SalesController implements Initializable {
 
             rss = pre.executeUpdate();
             if (rss > 0) {
-                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Them bills thanh cong");
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Bill added successfully.");
             }
 
             sql = "Update Orders set bill_id = ?";
@@ -1163,40 +1279,43 @@ public class SalesController implements Initializable {
             discountSales.setText("");
             bonusFeeSales.setText("");
             totalSales.setText("");
+
+//            String targetFolder = "D:/StudentMarks/";
+//            int table_id = hashmapTablesNo.get(Integer.parseInt(tableNo));
+//            int bill_id = maxIDBill;
+//            exportStudentMarkToPdf(table_id, bill_id, targetFolder);
         }
 
-//            String source = "C:/Users/Administrator/Documents/NetBeansProjects/Restaurant_Project/src/BillsPrint/Bills.jrxml";
-//          JasperReport jp = 
-//                  JasperCompileManager.compileReport
-//        (source);
-//          HashMap para =  new HashMap();
-//          JRBeanCollectionDataSource jcd = new JRBeanCollectionDataSource(data());
-//          JasperPrint print = JasperFillManager.fillReport(jp, para, jcd);
-//          
-//          JasperViewer.viewReport(print, false);
     }
 
-    private Collection data() {
-        ArrayList<BillsModel> model = new ArrayList<>();
-        String table = tableNoSales.getText();
-        String timein = intimeSales.getText();
-        String timeout = outTimeSales.getText();
-        String storage = "";
-        int quantity = 0;
-        String price = "";
-        for (int i = 0; i < listTableViewDishOrder.size(); i++) {
-            storage = listTableViewDishOrder.get(i).getName();
-            quantity = listTableViewDishOrder.get(i).getQuantity();
-            price = Currency.toMoney(listTableViewDishOrder.get(i).getPrice());
-        }
-        String discount = discountSales.getText();
-        String bonus = bonusFeeSales.getText();
-        String subtotal = subTotalSales.getText();
-        String total = totalSales.getText();
-        BillsModel billsModel = new BillsModel(table, timein, timeout, storage, quantity, price, discount, bonus, subtotal, total);
-        return model;
-    }
-
+//    public void exportStudentMarkToPdf(int table_id, int bill_id, String targetFolder) {
+//        try {
+//            String source = getClass().getResource("/BillsPrint/report.jrxml").toExternalForm();
+//            JasperReport jr = JasperCompileManager.compileReport(source);
+//
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("Table_id", table_id);
+//            params.put("Bill_id", bill_id);
+//
+//            conn = Connect.ConnectDB.connectSQLServer();
+//            JasperPrint jp = JasperFillManager.fillReport(jr, params, conn);
+//
+//            OutputStream os = new FileOutputStream(targetFolder + "Restaurant" + table_id + ".pdf");
+//            JasperExportManager.exportReportToPdfStream(jp, os);
+//            System.out.println(os);
+//
+//            os.flush();
+//            os.close();
+//        } catch (IOException | ClassNotFoundException | SQLException | JRException e) {
+//        } finally {
+//            try {
+//                if (conn != null && !conn.isClosed()) {
+//                    conn.close();
+//                }
+//            } catch (SQLException e) {
+//            }
+//        }
+//    }
     @FXML
     private void inputBonus(KeyEvent event) {
         String parseToCurrency = Currency.parseToCurrency(bonusFeeSales.getText());
@@ -1213,9 +1332,13 @@ public class SalesController implements Initializable {
         discountSales.positionCaret(length);
     }
 
+
+    // In and out
+    
+    
     public void showTableUserListBill() throws ClassNotFoundException, SQLException {
         selectUser();
-        userCol.setCellValueFactory(new PropertyValueFactory<>("storage"));
+        userBillCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         quantityOfBillCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         conn = Connect.ConnectDB.connectSQLServer();
@@ -1228,6 +1351,182 @@ public class SalesController implements Initializable {
         }
         tableUserListBill.setItems(listTableUserListBill);
     }
+    
+    public void showTablePassengers() throws ClassNotFoundException, SQLException {
+        selectTable();
+        tableBillsCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        passengersCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select table_id, COUNT(bill_id) as Passengers From Bills GROUP BY table_id";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            BillsModel billsModel = new BillsModel("Table" + hashmapTables.get(rs.getInt("table_id")), rs.getInt("Passengers"));
+            listTablepassengers.add(billsModel);
+        }
+        tablePassengersListBill.setItems(listTablepassengers);
+    }
+    
+    // Out come
+    
+    public void showTableAmount() throws ClassNotFoundException, SQLException {
+        listTableAmount.clear();
+        selectUser();
+        OutcomeIDCol.setCellValueFactory(new PropertyValueFactory<>("amount_id"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        outcomeReasonCol.setCellValueFactory(new PropertyValueFactory<>("amountReason"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        userCol.setCellValueFactory(new PropertyValueFactory<>("user"));
+
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select amount_id, amount_reason, amount, user_id, time From OutAmount";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            OutcomeModel outcomeModel = new OutcomeModel(rs.getInt("amount_id"), rs.getFloat("amount"), rs.getString("amount_reason"), hashmapUserName.get(rs.getInt("user_id")), rs.getString("time"));
+            listTableAmount.add(outcomeModel);
+        }
+        tableViewInAndOut.setItems(listTableAmount);
+    }
+    
+    @FXML
+    private void clickRowTableOutcome(MouseEvent event) {
+        OutcomeModel outcomeModel = tableViewInAndOut.getSelectionModel().getSelectedItem();
+        if (outcomeModel != null) {
+            btnAddOutcome.setVisible(false);
+            btnResetOutcome.setVisible(false);
+            btnDeleteOutcome.setVisible(true);
+            btnEditOutcome.setVisible(true);
+            btnCancelOutcome.setVisible(true);
+            txtOutcomeAmount.setText(Currency.toMoney(outcomeModel.getAmount()));
+            txtOutcomeReason.setText(outcomeModel.getAmountReason());
+            lblamountIDOutcome.setText(String.valueOf(outcomeModel.getAmount_id()));
+        }
+    }
+
+    private int maxIDInandOut;
+
+    public int maxIDInandOut() throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select Max(amount_id) as amount_id from OutAmount";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        if (rs.next()) {
+            maxIDInandOut = rs.getInt("amount_id");
+        }
+        return maxIDInandOut;
+    }
+
+    @FXML
+    private void clickAddInAndOut(ActionEvent event) throws ClassNotFoundException, SQLException {
+        if (txtOutcomeReason.getText().trim().isEmpty()) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please enter outcome amount.");
+        } else if (txtOutcomeAmount.getText().trim().isEmpty()) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please enter outcome reason.");
+        } else {
+            selectUser();
+            maxIDInandOut();
+            Date d = new Date();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String amount = "";
+            String[] split = txtOutcomeAmount.getText().split(",");
+
+            for (String string : split) {
+                amount += string;
+            }
+
+            conn = Connect.ConnectDB.connectSQLServer();
+            sql = "Insert into OutAmount values(?,?,?,?,?)";
+            pre = conn.prepareStatement(sql);
+            pre.setInt(1, maxIDInandOut + 1);
+            pre.setString(2, txtOutcomeReason.getText());
+            pre.setFloat(3, Float.parseFloat(amount));
+            pre.setInt(4, hashmapUser.get(userName));
+            pre.setString(5, s.format(d));
+            rss = pre.executeUpdate();
+            if (rss > 0) {
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Outcome amount added successfully.");
+            }
+            showTableAmount();
+            txtOutcomeReason.setText("");
+            txtOutcomeReason.setText("");
+        }
+    }
+
+    @FXML
+    private void clickEditInAndOut(ActionEvent event) throws ClassNotFoundException, SQLException {
+        if (txtOutcomeReason.getText().trim().isEmpty()) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please enter outcome amount.");
+        } else if (txtOutcomeAmount.getText().trim().isEmpty()) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please enter outcome reason.");
+        } else {
+            selectUser();
+            maxIDInandOut();
+            String amount = "";
+            String[] split = txtOutcomeAmount.getText().split(",");
+
+            for (String string : split) {
+                amount += string;
+            }
+
+            conn = Connect.ConnectDB.connectSQLServer();
+            sql = "Update OutAmount set amount_reason = ?, amount = ? Where amount_id = ?";
+            pre = conn.prepareStatement(sql);
+            pre.setString(1, txtOutcomeReason.getText());
+            pre.setInt(2, Integer.parseInt(amount));
+            pre.setInt(3, Integer.parseInt(lblamountIDOutcome.getText()));
+            rss = pre.executeUpdate();
+            if (rss > 0) {
+                Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Outcome successfully updated.");
+            }
+            showTableAmount();
+            txtOutcomeReason.setText("");
+            txtOutcomeAmount.setText("");
+            btnAddOutcome.setVisible(true);
+            btnResetOutcome.setVisible(true);
+            btnDeleteOutcome.setVisible(false);
+            btnEditOutcome.setVisible(false);
+            btnCancelOutcome.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void clickDeleteInAndOut(ActionEvent event) throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Delete OutAmount Where amount_id = ?";
+        pre = conn.prepareStatement(sql);
+        pre.setInt(1, Integer.parseInt(lblamountIDOutcome.getText()));
+        rss = pre.executeUpdate();
+        if (rss > 0) {
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "successfully delete.");
+        }
+        showTableAmount();
+        txtOutcomeReason.setText("");
+        txtOutcomeAmount.setText("");
+        btnAddOutcome.setVisible(true);
+        btnResetOutcome.setVisible(true);
+        btnDeleteOutcome.setVisible(false);
+        btnEditOutcome.setVisible(false);
+        btnCancelOutcome.setVisible(false);
+    }
+
+    @FXML
+    private void clickResetOutcome(ActionEvent event) {
+        txtOutcomeReason.setText("");
+        txtOutcomeAmount.setText("");
+    }
+
+    @FXML
+    private void clickCancelOutcome(ActionEvent event) {
+        txtOutcomeReason.setText("");
+        txtOutcomeAmount.setText("");
+        btnAddOutcome.setVisible(true);
+        btnResetOutcome.setVisible(true);
+        btnDeleteOutcome.setVisible(false);
+        btnEditOutcome.setVisible(false);
+        btnCancelOutcome.setVisible(false);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -1235,11 +1534,21 @@ public class SalesController implements Initializable {
             addValue_ComboboxCategory();
             showTablesItems();
             showDishSales();
-
+            showTableAmount();
+            showTablePassengers();
+            showTableUserListBill();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SalesController.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void inputAmout(KeyEvent event) {
+        String parseToCurrency = Currency.parseToCurrency(txtOutcomeAmount.getText());
+        txtOutcomeAmount.setText(parseToCurrency);
+        int length = parseToCurrency.length();
+        txtOutcomeAmount.positionCaret(length);
     }
 
     @FXML
@@ -1248,6 +1557,7 @@ public class SalesController implements Initializable {
             addValue_ComboboxCategory();
             showTablesItems();
             showDishSales();
+            showTableAmount();
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SalesController.class

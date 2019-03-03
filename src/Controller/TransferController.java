@@ -65,7 +65,7 @@ public class TransferController implements Initializable {
     @FXML
     private void clickAddTransfer(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (cbbTable.getValue() == null) {
-            Notification.showMessageDialog(stackPaneTransfer, anchorPaneTransfer, "Chon ban muon doi");
+            Notification.showMessageDialog(stackPaneTransfer, anchorPaneTransfer, "Please choose table you want to transfer.");
         } else {
             hasMapTables();
             String[] split = cbbTable.getValue().split("\\s");

@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
             }
         }
         if (!loginStatus) {
-            Notification.showMessageDialog(stackPaneLogin, anchorPaneLogin, "login fail");
+            Notification.showMessageDialog(stackPaneLogin, anchorPaneLogin, "Login failed. Please login again.");
         }
     }
 

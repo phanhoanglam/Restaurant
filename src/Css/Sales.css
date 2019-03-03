@@ -9,6 +9,9 @@
     -fx-background-color:  #ff6666;
     -fx-background-radius:  50px;
 }
+.tableView{
+    -fx-alignment: CENTER;
+}
 .buttonSales{
     -fx-font-weight: bold;
     -fx-background-color: #2196f3;

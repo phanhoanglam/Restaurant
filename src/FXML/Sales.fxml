@@ -21,9 +21,9 @@
                </image>
             </ImageView>
             <JFXButton fx:id="btnListTable" layoutX="630.0" layoutY="38.0" onAction="#clickListTable" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="List table" textFill="#15131b" underline="true" />
-            <JFXButton fx:id="btnInOut" layoutX="990.0" layoutY="38.0" onAction="#clickInOut" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="In &amp; Out" textFill="WHITE" underline="true" />
+            <JFXButton fx:id="btnInOut" layoutX="990.0" layoutY="38.0" onAction="#clickInOut" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Outcome" textFill="WHITE" underline="true" />
             <JFXButton fx:id="btnListBill" layoutX="810.0" layoutY="38.0" onAction="#clickListBill" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="List bill" textFill="WHITE" underline="true" />
-            <StackPane fx:id="stackPaneListTable" layoutY="92.0" prefHeight="896.0" prefWidth="1800.0">
+            <StackPane fx:id="stackPaneListTable" layoutY="92.0" prefHeight="896.0" prefWidth="1800.0" visible="false">
                <children>
                   <GridPane layoutX="6.0" layoutY="92.0" prefHeight="676.0" prefWidth="1350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="92.0">
                     <columnConstraints>
@@ -135,10 +135,10 @@
                               <Button fx:id="btnLoadOrder" layoutX="463.0" layoutY="568.0" mnemonicParsing="false" onAction="#clickLoadOrder" prefHeight="31.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Load" />
                               <TableView fx:id="tableViewOrderDish" layoutX="10.0" layoutY="247.0" onMouseClicked="#clickRowTableViewOrder" prefHeight="310.0" prefWidth="580.0">
                                 <columns>
-                                  <TableColumn fx:id="nameColOrder" prefWidth="197.0" text="Name" />
-                                  <TableColumn fx:id="quantityColOder" prefWidth="116.0" text="Quantity" />
-                                    <TableColumn fx:id="priceColOder" prefWidth="157.0" text="Price" />
-                                    <TableColumn fx:id="actionColOder" prefWidth="109.0" text="Action" />
+                                  <TableColumn fx:id="nameColOrder" prefWidth="197.0" styleClass="tableView" text="Name" />
+                                  <TableColumn fx:id="quantityColOder" prefWidth="116.0" styleClass="tableView" text="Quantity" />
+                                    <TableColumn fx:id="priceColOder" prefWidth="157.0" styleClass="tableView" text="Price" />
+                                    <TableColumn fx:id="actionColOder" prefWidth="109.0" styleClass="tableView" text="Action" />
                                 </columns>
                               </TableView>
                               <Label layoutX="12.0" layoutY="573.0" prefHeight="26.0" prefWidth="86.0" text="Quantity : ">
@@ -201,9 +201,9 @@
                         </Pane>
                         <TableView fx:id="listBillCategoryListBill" layoutX="1113.0" layoutY="152.0" prefHeight="713.0" prefWidth="633.0">
                            <columns>
-                              <TableColumn prefWidth="211.0" text="Category" />
-                              <TableColumn minWidth="0.0" prefWidth="235.0" text="Item" />
-                              <TableColumn minWidth="0.0" prefWidth="231.0" text="Quantity" />
+                              <TableColumn prefWidth="211.0" styleClass="tableView" text="Category" />
+                              <TableColumn minWidth="0.0" prefWidth="235.0" styleClass="tableView" text="Item" />
+                              <TableColumn minWidth="0.0" prefWidth="186.0" styleClass="tableView" text="Quantity" />
                            </columns>
                            <effect>
                               <DropShadow />
@@ -211,8 +211,8 @@
                         </TableView>
                         <TableView fx:id="tablePassengersListBill" layoutX="533.0" layoutY="152.0" prefHeight="588.0" prefWidth="504.0">
                            <columns>
-                              <TableColumn prefWidth="185.0" text="Table" />
-                              <TableColumn minWidth="0.0" prefWidth="318.0" text="Passengers" />
+                              <TableColumn fx:id="tableBillsCol" prefWidth="185.0" styleClass="tableView" text="Table" />
+                              <TableColumn fx:id="passengersCol" minWidth="0.0" prefWidth="318.0" styleClass="tableView" text="Passengers" />
                            </columns>
                            <effect>
                               <DropShadow />
@@ -220,8 +220,8 @@
                         </TableView>
                         <TableView fx:id="tableUserListBill" layoutX="68.0" layoutY="152.0" prefHeight="420.0" prefWidth="394.0">
                            <columns>
-                              <TableColumn fx:id="userCol" prefWidth="157.0" text="User" />
-                              <TableColumn fx:id="quantityOfBillCol" prefWidth="236.0" text="Quantity of bill" />
+                              <TableColumn fx:id="userBillCol" prefWidth="157.0" styleClass="tableView" text="User" />
+                              <TableColumn fx:id="quantityOfBillCol" prefWidth="236.0" styleClass="tableView" text="Quantity of bill" />
                            </columns>
                            <effect>
                               <DropShadow />
@@ -232,65 +232,38 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <StackPane fx:id="stackPaneInOut" layoutY="91.0" prefHeight="896.0" prefWidth="1800.0" visible="false">
+            <StackPane fx:id="stackPaneInOut" layoutY="91.0" prefHeight="896.0" prefWidth="1800.0">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Pane layoutX="51.0" layoutY="9.0" prefHeight="232.0" prefWidth="660.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                        <Pane layoutX="570.0" layoutY="14.0" prefHeight="212.0" prefWidth="660.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
                            <children>
-                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="26.0" prefHeight="38.0" prefWidth="255.0" promptText="Outcome reason ">
+                              <JFXTextField fx:id="txtOutcomeReason" labelFloat="true" layoutX="106.0" layoutY="26.0" prefHeight="38.0" prefWidth="255.0" promptText="Outcome reason ">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font></JFXTextField>
-                              <Button layoutX="419.0" layoutY="28.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
-                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="161.0" prefHeight="38.0" prefWidth="255.0" promptText="User">
+                              <Button fx:id="btnAddOutcome" layoutX="419.0" layoutY="37.0" mnemonicParsing="false" onAction="#clickAddInAndOut" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Add" />
+                              <Button fx:id="btnEditOutcome" layoutX="419.0" layoutY="28.0" mnemonicParsing="false" onAction="#clickEditInAndOut" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Edit" visible="false" />
+                              <JFXTextField fx:id="txtOutcomeAmount" labelFloat="true" layoutX="106.0" layoutY="114.0" onKeyReleased="#inputAmout" prefHeight="38.0" prefWidth="255.0" promptText="Outcome amount ">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font></JFXTextField>
-                              <Button layoutX="419.0" layoutY="97.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Edit" />
-                              <JFXTextField labelFloat="true" layoutX="106.0" layoutY="95.0" prefHeight="38.0" prefWidth="255.0" promptText="Outcome amount ">
-                                 <font>
-                                    <Font name="System Bold" size="17.0" />
-                                 </font></JFXTextField>
-                              <Button layoutX="419.0" layoutY="163.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" />
+                              <Button fx:id="btnDeleteOutcome" layoutX="419.0" layoutY="89.0" mnemonicParsing="false" onAction="#clickDeleteInAndOut" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Delete" visible="false" />
+                              <Button fx:id="btnResetOutcome" layoutX="419.0" layoutY="116.0" mnemonicParsing="false" onAction="#clickResetOutcome" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Reset" />
+                              <Button fx:id="btnCancelOutcome" layoutX="419.0" layoutY="150.0" mnemonicParsing="false" onAction="#clickCancelOutcome" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Cancel" visible="false" />
+                              <Label fx:id="lblamountIDOutcome" layoutX="44.0" layoutY="30.0" prefHeight="34.0" prefWidth="47.0" />
                            </children>
                            <effect>
                               <DropShadow />
                            </effect>
                         </Pane>
-                        <TableView layoutX="51.0" layoutY="272.0" prefHeight="610.0" prefWidth="660.0">
+                        <TableView fx:id="tableViewInAndOut" layoutX="570.0" layoutY="243.0" onMouseClicked="#clickRowTableOutcome" prefHeight="639.0" prefWidth="660.0">
                           <columns>
-                            <TableColumn prefWidth="158.0" text="Date" />
-                            <TableColumn prefWidth="176.0" text="Outcome reason" />
-                              <TableColumn minWidth="0.0" prefWidth="148.0" text="Amount" />
-                              <TableColumn minWidth="0.0" prefWidth="177.0" text="User" />
-                          </columns>
-                        </TableView>
-                        <Pane layoutX="819.0" layoutY="9.0" prefHeight="113.0" prefWidth="926.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
-                           <children>
-                              <DatePicker layoutX="389.0" layoutY="28.0" />
-                              <DatePicker layoutX="102.0" layoutY="28.0" />
-                              <Label layoutX="327.0" layoutY="29.0" prefHeight="26.0" prefWidth="40.0" text="To : ">
-                                 <font>
-                                    <Font name="System Bold" size="17.0" />
-                                 </font></Label>
-                              <Button layoutX="626.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statictis" />
-                              <Label layoutX="26.0" layoutY="29.0" prefHeight="26.0" prefWidth="86.0" text="From : ">
-                                 <font>
-                                    <Font name="System Bold" size="17.0" />
-                                 </font></Label>
-                              <Button layoutX="775.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV output" />
-                           </children>
-                           <effect>
-                              <DropShadow />
-                           </effect>
-                        </Pane>
-                        <TableView layoutX="819.0" layoutY="157.0" prefHeight="725.0" prefWidth="926.0">
-                          <columns>
-                            <TableColumn prefWidth="225.0" text="Date" />
-                            <TableColumn prefWidth="273.0" text="Total income" />
-                              <TableColumn prefWidth="274.0" text="Total outcome" />
-                              <TableColumn prefWidth="153.0" text="Left amount" />
+                            <TableColumn fx:id="dateCol" prefWidth="158.0" styleClass="tableView" text="Date" />
+                            <TableColumn fx:id="outcomeReasonCol" prefWidth="176.0" styleClass="tableView" text="Outcome reason" />
+                              <TableColumn fx:id="amountCol" minWidth="0.0" prefWidth="148.0" styleClass="tableView" text="Amount" />
+                              <TableColumn fx:id="userCol" minWidth="0.0" prefWidth="177.0" styleClass="tableView" text="User" />
+                              <TableColumn fx:id="OutcomeIDCol" prefWidth="75.0" text="ID" />
                           </columns>
                         </TableView>
                      </children>

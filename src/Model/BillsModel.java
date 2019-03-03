@@ -10,7 +10,9 @@ package Model;
  * @author Administrator
  */
 public class BillsModel {
+
     private String table;
+    private String name;
     private String timein;
     private String timeout;
     private String storage;
@@ -104,6 +106,15 @@ public class BillsModel {
     public BillsModel() {
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+
     public BillsModel(String table, String timein, String timeout, String storage, int quantity, String price, String discount, String bonus, String subtotal, String total) {
         this.table = table;
         this.timein = timein;
@@ -117,11 +128,10 @@ public class BillsModel {
         this.total = total;
     }
 
-    public BillsModel(String storage, int quantity) {
-        this.storage = storage;
+    public BillsModel(String name, int quantity) {
+        this.name = name;
         this.quantity = quantity;
     }
+    
 
-    
-    
 }
