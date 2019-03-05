@@ -127,11 +127,6 @@ public class UsersController implements Initializable {
     private JFXTextField txtFullname;
 
     @FXML
-    private Label lblDate;
-    @FXML
-    private Label lblTime;
-
-    @FXML
     private Button btnEditUser;
     @FXML
     private Button btnAddUser;
@@ -266,6 +261,8 @@ public class UsersController implements Initializable {
             txtUser.setText("");
         } else {
             maxIDUser();
+            Date d = new Date();
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
             conn = Connect.ConnectDB.connectSQLServer();
             sql = "Insert into Users values(?,?,?,?,?,?,?,?,?)";
             pre = conn.prepareStatement(sql);
@@ -286,7 +283,7 @@ public class UsersController implements Initializable {
                 gender = 1;
             }
             pre.setInt(8, gender);
-            pre.setString(9, lblDate.getText());
+            pre.setString(9, s.format(d));
             rss = pre.executeUpdate();
             if (rss > 0) {
                 Notification.showMessageDialog(stackPaneUsers, AnchorPaneUser, "Insert successfully.");
@@ -489,10 +486,10 @@ public class UsersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblDate.textProperty().bind(taskDate.messageProperty());
-        lblTime.textProperty().bind(taskTime.messageProperty());
-        new Thread(taskDate).start();
-        new Thread(taskTime).start();
+//        lblDate.textProperty().bind(taskDate.messageProperty());
+//        lblTime.textProperty().bind(taskTime.messageProperty());
+//        new Thread(taskDate).start();
+//        new Thread(taskTime).start();
         group_RadioGenderUsers();
         group_RadioRoleUsers();
 
@@ -503,39 +500,39 @@ public class UsersController implements Initializable {
         }
     }
 
-    Task<Time> taskDate = new Task<Time>() {
-        @Override
-        protected Time call() throws Exception {
-            while (true) {
-                Date d = new Date();
-                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-                updateMessage(s.format(d));
-                Thread.sleep(1000);
-            }
-        }
-
-        @Override
-        protected void updateMessage(String message) {
-            super.updateMessage(message);
-        }
-
-    };
-
-    Task<Time> taskTime = new Task<Time>() {
-        @Override
-        protected Time call() throws Exception {
-            while (true) {
-                Date d = new Date();
-                SimpleDateFormat h = new SimpleDateFormat("HH:mm:ss");
-                updateMessage(h.format(d));
-                Thread.sleep(1000);
-            }
-        }
-
-        @Override
-        protected void updateMessage(String message) {
-            super.updateMessage(message);
-        }
-    };
+//    Task<Time> taskDate = new Task<Time>() {
+//        @Override
+//        protected Time call() throws Exception {
+//            while (true) {
+//                Date d = new Date();
+//                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+//                updateMessage(s.format(d));
+//                Thread.sleep(1000);
+//            }
+//        }
+//
+//        @Override
+//        protected void updateMessage(String message) {
+//            super.updateMessage(message);
+//        }
+//
+//    };
+//
+//    Task<Time> taskTime = new Task<Time>() {
+//        @Override
+//        protected Time call() throws Exception {
+//            while (true) {
+//                Date d = new Date();
+//                SimpleDateFormat h = new SimpleDateFormat("HH:mm:ss");
+//                updateMessage(h.format(d));
+//                Thread.sleep(1000);
+//            }
+//        }
+//
+//        @Override
+//        protected void updateMessage(String message) {
+//            super.updateMessage(message);
+//        }
+//    };
 
 }

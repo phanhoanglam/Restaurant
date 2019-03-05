@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="stackPaneShowBill" prefHeight="696.0" prefWidth="1198.0" style="-fx-background-color: pink; -fx-border-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ShowBillByEmployeeController">
+   <children>
+      <AnchorPane>
+         <children>
+            <TableView fx:id="tableViewshowBill" prefHeight="634.0" prefWidth="1196.0">
+              <columns>
+                <TableColumn fx:id="tableCol" prefWidth="157.0" styleClass="tableView" text="Table" />
+                <TableColumn fx:id="timeinCol" minWidth="0.0" prefWidth="200.0" styleClass="tableView" text="Time in" />
+                  <TableColumn fx:id="timeoutCol" minWidth="0.0" prefWidth="212.0" styleClass="tableView" text="Time out" />
+                  <TableColumn fx:id="subtotalCol" minWidth="0.0" prefWidth="165.0" styleClass="tableView" text="Sub total" />
+                  <TableColumn fx:id="discountCol" minWidth="0.0" prefWidth="159.0" styleClass="tableView" text="Discount" />
+                  <TableColumn fx:id="bonusfeeCol" minWidth="0.0" prefWidth="150.0" styleClass="tableView" text="Bonus fee" />
+                  <TableColumn fx:id="totalCol" minWidth="0.0" prefWidth="152.0" styleClass="tableView" text="Total" />
+              </columns>
+            </TableView>
+            <JFXButton layoutX="529.0" layoutY="647.0" onAction="#clickCancelShowBills" prefHeight="33.0" prefWidth="138.0" styleClass="buttonReserve" stylesheets="@../Css/Sales.css" text="Ok" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

@@ -120,27 +120,6 @@ public class GatherController implements Initializable {
     }
 
     private void addValue_ComboboxTables() throws ClassNotFoundException, SQLException {
-//        hasMapTables();
-//        String[] split = lblTable.getText().split("\\s");
-//        String oldTable = split[1];
-//        System.out.println(oldTable);
-//        System.out.println(hasmapTablesNo.get(Integer.parseInt(oldTable)));
-//
-//        hasmapComboboxTables = new HashMap<>();
-//        conn = Connect.ConnectDB.connectSQLServer();
-//        sql = "Select table_id, table_no, status from Tables Where status = 1 and table_id != ?";
-//        pre = conn.prepareStatement(sql);
-//        pre.setInt(1, hasmapTablesNo.get(Integer.parseInt(oldTable)));
-//        rs = pre.executeQuery();
-//        while (rs.next()) {
-//            hasmapComboboxTables.put(rs.getInt("table_no"), rs.getInt("table_id"));
-//        }
-//
-//        for (Integer key : hasmapComboboxTables.keySet()) {
-//            listComboboxTable.add("Table " + key);
-//        }
-//        cbbTable.setItems(listComboboxTable);
-
         hasmapComboboxTables = new HashMap<>();
         conn = Connect.ConnectDB.connectSQLServer();
         sql = "Select table_id, table_no, status from Tables Where status = 1";

@@ -11,24 +11,32 @@ package Model;
  */
 public class BillsModel {
 
-    private String table;
+    private int table;
     private String name;
     private String timein;
     private String timeout;
     private String storage;
     private int quantity;
-    private String price;
-    private String discount;
-    private String bonus;
-    private String subtotal;
-    private String total;
+    private float price;
+    private float discount;
+    private float bonus;
+    private float subtotal;
+    private float total;
 
-    public String getTable() {
+    public int getTable() {
         return table;
     }
 
-    public void setTable(String table) {
+    public void setTable(int table) {
         this.table = table;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTimein() {
@@ -63,60 +71,49 @@ public class BillsModel {
         this.quantity = quantity;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public String getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 
-    public String getBonus() {
+    public float getBonus() {
         return bonus;
     }
 
-    public void setBonus(String bonus) {
+    public void setBonus(float bonus) {
         this.bonus = bonus;
     }
 
-    public String getSubtotal() {
+    public float getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
+    public void setSubtotal(float subtotal) {
         this.subtotal = subtotal;
     }
 
-    public String getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
-    public BillsModel() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-
-    public BillsModel(String table, String timein, String timeout, String storage, int quantity, String price, String discount, String bonus, String subtotal, String total) {
+    public BillsModel(int table, String name, String timein, String timeout, String storage, int quantity, float price, float discount, float bonus, float subtotal, float total) {
         this.table = table;
+        this.name = name;
         this.timein = timein;
         this.timeout = timeout;
         this.storage = storage;
@@ -132,6 +129,17 @@ public class BillsModel {
         this.name = name;
         this.quantity = quantity;
     }
+
+    public BillsModel(int table, String timein, String timeout, float discount, float bonus, float subtotal, float total) {
+        this.table = table;
+        this.timein = timein;
+        this.timeout = timeout;
+        this.discount = discount;
+        this.bonus = bonus;
+        this.subtotal = subtotal;
+        this.total = total;
+    }
+    
     
 
 }

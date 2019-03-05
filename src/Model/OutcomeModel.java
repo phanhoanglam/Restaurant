@@ -14,8 +14,10 @@ public class OutcomeModel {
     private int amount_id;
     private float amount;
     private String amountReason;
+    private float income;
     private String user;
     private String time;
+    private float total;
 
     public int getAmount_id() {
         return amount_id;
@@ -60,12 +62,34 @@ public class OutcomeModel {
     public OutcomeModel() {
     }
 
+    public float getIncome() {
+        return income;
+    }
+
+    public void setIncome(float income) {
+        this.income = income;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
     public OutcomeModel(int amount_id, float amount, String amountReason, String user, String time) {
         this.amount_id = amount_id;
         this.amount = amount;
         this.amountReason = amountReason;
         this.user = user;
         this.time = time;
+    }
+
+    public OutcomeModel(float amount, float income, float total) {
+        this.amount = amount;
+        this.income = income;
+        this.total = total;
     }
 
 }

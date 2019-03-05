@@ -25,7 +25,7 @@
             <JFXButton layoutX="630.0" layoutY="38.0" onAction="#clickItems" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Item" textFill="#15131b" underline="true" />
             <JFXButton layoutX="990.0" layoutY="38.0" onAction="#clickStatistical" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Statistical" textFill="WHITE" underline="true" />
             <JFXButton layoutX="810.0" layoutY="38.0" onAction="#clickTable" prefHeight="39.0" prefWidth="180.0" styleClass="itemSales" stylesheets="@../Css/Sales.css" text="Table" textFill="WHITE" underline="true" />
-            <StackPane fx:id="stackPaneItem" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false">
+            <StackPane fx:id="stackPaneItem" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0">
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -111,55 +111,65 @@
                      </children>
                   </AnchorPane>
                </children></StackPane>
-            <StackPane fx:id="stackPaneStatistical" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0">
+            <StackPane fx:id="stackPaneStatistical" layoutY="92.0" prefHeight="898.0" prefWidth="1800.0" visible="false">
                <children>
                   <AnchorPane>
                      <children>
-                        <Pane layoutX="178.0" layoutY="14.0" prefHeight="113.0" prefWidth="926.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
+                        <Pane layoutX="159.0" layoutY="49.0" prefHeight="252.0" prefWidth="926.0" styleClass="paneItems" stylesheets="@../Css/Sales.css">
                            <children>
-                              <DatePicker layoutX="389.0" layoutY="28.0" />
-                              <DatePicker layoutX="102.0" layoutY="28.0" />
+                              <DatePicker fx:id="datePickerTo" layoutX="389.0" layoutY="28.0" />
+                              <DatePicker fx:id="datePickerFrom" layoutX="102.0" layoutY="28.0" />
                               <Label layoutX="327.0" layoutY="29.0" prefHeight="26.0" prefWidth="40.0" text="To : ">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="626.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statictis" />
+                              <Button layoutX="627.0" layoutY="26.0" mnemonicParsing="false" onAction="#clickStatictis" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Statictis" />
                               <Label layoutX="26.0" layoutY="29.0" prefHeight="26.0" prefWidth="86.0" text="From : ">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="775.0" layoutY="54.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV output" />
+                              <Button layoutX="775.0" layoutY="25.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="127.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="CSV output" />
+                              <Label layoutX="27.0" layoutY="112.0" prefHeight="26.0" prefWidth="151.0" text="Total income">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="268.0" layoutY="114.0" prefHeight="26.0" prefWidth="158.0" text="Total outcome">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="522.0" layoutY="113.0" prefHeight="26.0" prefWidth="168.0" text="Left amount">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtTotalIncome" disable="true" layoutX="26.0" layoutY="152.0" prefHeight="39.0" prefWidth="151.0">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="txtTotalOutcome" disable="true" layoutX="268.0" layoutY="154.0" prefHeight="39.0" prefWidth="151.0">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="txtTotalLeftAmount" disable="true" layoutX="522.0" layoutY="153.0" prefHeight="39.0" prefWidth="151.0">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </TextField>
                            </children>
                            <effect>
                               <DropShadow />
                            </effect>
                         </Pane>
-                        <TableView layoutX="178.0" layoutY="148.0" prefHeight="712.0" prefWidth="926.0">
-                           <columns>
-                              <TableColumn prefWidth="225.0" styleClass="tableView" text="Date" />
-                              <TableColumn prefWidth="273.0" styleClass="tableView" text="Total income" />
-                              <TableColumn prefWidth="274.0" styleClass="tableView" text="Total outcome" />
-                              <TableColumn prefWidth="153.0" styleClass="tableView" text="Left amount" />
-                           </columns>
-                        </TableView>
                      </children>
                   </AnchorPane>
                </children></StackPane>
             <Button layoutX="1595.0" layoutY="34.0" mnemonicParsing="false" onAction="#clickComeBackManage" prefHeight="36.0" prefWidth="151.0" styleClass="buttonSales" stylesheets="@../Css/Sales.css" text="Come back" />
-            <Pane layoutX="1194.0" layoutY="-1.0" prefHeight="78.0" prefWidth="272.0" style="-fx-background-color: black;">
-               <children>
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="41.0" text="Date" textFill="#0bf434">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="42.0" prefHeight="17.0" prefWidth="41.0" style="-fx-font-weight: bold;" text="Time" textFill="#0bf434" />
-                  <Label alignment="CENTER" layoutX="68.0" layoutY="14.0" prefHeight="17.0" prefWidth="174.0" style="-fx-font-weight: bold;" text="2019 - 01 - 26" textFill="#0bf434" />
-                  <Label alignment="CENTER" layoutX="68.0" layoutY="42.0" prefHeight="17.0" prefWidth="174.0" style="-fx-font-weight: bold;" text="12:35:00" textFill="#0bf434" />
-               </children>
-            </Pane>
          </children>
       </AnchorPane>
    </children>

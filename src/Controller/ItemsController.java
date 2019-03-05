@@ -5,8 +5,10 @@
  */
 package Controller;
 
+import Model.BillsModel;
 import Util.Currency;
 import Model.ItemsModel;
+import Model.OutcomeModel;
 import Util.Notification;
 import Model.TableModel;
 import com.jfoenix.controls.JFXButton;
@@ -45,6 +47,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -157,6 +160,17 @@ public class ItemsController implements Initializable {
     private JFXTextField txtSearchItemName;
     @FXML
     private JFXComboBox<String> cbbSearchCategory;
+    @FXML
+    private DatePicker datePickerTo;
+    @FXML
+    private DatePicker datePickerFrom;
+
+    @FXML
+    private TextField txtTotalIncome;
+    @FXML
+    private TextField txtTotalOutcome;
+    @FXML
+    private TextField txtTotalLeftAmount;
 
     @FXML
     private void clickItems(ActionEvent event) {
@@ -706,6 +720,48 @@ public class ItemsController implements Initializable {
         txtAmountItems.setText(parseToCurrency);
         int length = parseToCurrency.length();
         txtAmountItems.positionCaret(length);
+    }
+
+    @FXML
+    private void clickStatictis(ActionEvent event) throws ClassNotFoundException, SQLException {
+        if (datePickerFrom.getValue() == null || datePickerTo.getValue() == null) {
+            Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "This field can not be empty.");
+        } else {
+            if (datePickerFrom.getValue().compareTo(datePickerTo.getValue()) > 0) {
+                Notification.showMessageDialog(stackPaneItems, anchorPaneItems, "Error datetime.");
+                datePickerFrom.setValue(null);
+                datePickerTo.setValue(null);
+            } else {
+                float income = 0;
+                float outcome = 0;
+                float total = 0;
+                conn = Connect.ConnectDB.connectSQLServer();
+                sql = "Select SUM(total) as total From Bills Where time_out BETWEEN ? AND ?";
+                pre = conn.prepareStatement(sql);
+                pre.setString(1, datePickerFrom.getValue().toString());
+                pre.setString(2, datePickerTo.getValue().toString());
+                rs = pre.executeQuery();
+                if (rs.next()) {
+                    income = rs.getFloat("total");
+                }
+
+                sql = "Select SUM(amount) as total From OutAmount Where time BETWEEN ? AND ?";
+                pre = conn.prepareStatement(sql);
+                pre.setString(1, datePickerFrom.getValue().toString());
+                pre.setString(2, datePickerTo.getValue().toString());
+                rs = pre.executeQuery();
+                if (rs.next()) {
+                    outcome = rs.getFloat("total");
+                }
+
+                total = income - outcome;
+
+                txtTotalIncome.setText(Currency.toMoney(income));
+                txtTotalOutcome.setText(Currency.toMoney(outcome));
+                txtTotalLeftAmount.setText(Currency.toMoney(total));
+
+            }
+        }
     }
 
     @Override

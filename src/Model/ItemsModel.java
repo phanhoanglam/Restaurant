@@ -125,4 +125,10 @@ public class ItemsModel {
         this.name = name;
     }
 
+    public ItemsModel(String category, String name, int quantity) {
+        this.category = category;
+        this.name = name;
+        this.quantity = quantity;
+    }
+    
 }

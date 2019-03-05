@@ -3,6 +3,7 @@ package Controller;
 import Util.Currency;
 import static Controller.ItemsController.isTextFieldtypeNumber;
 import Model.BillsModel;
+import Model.CustomerModel;
 import Model.OutcomeModel;
 import Model.ItemsModel;
 import Util.Notification;
@@ -31,10 +32,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -48,6 +54,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -181,6 +188,7 @@ public class SalesController implements Initializable {
     private HashMap<Integer, Integer> hashmapTablesNo = new HashMap<>();
     private HashMap<String, Integer> hashmapUser = new HashMap<>();
     private HashMap<Integer, String> hashmapUserName = new HashMap<>();
+    private HashMap<Integer, String> hashmapCategory = new HashMap<>();
 
     @FXML
     private Label totalSales;
@@ -191,8 +199,15 @@ public class SalesController implements Initializable {
     @FXML
     private JFXTextField discountSales;
 
+    private ObservableList<ItemsModel> listTableCategoryListBill = FXCollections.observableArrayList();
     @FXML
-    private TableView<?> listBillCategoryListBill;
+    private TableView<ItemsModel> tableCategoryListBill;
+    @FXML
+    private TableColumn<ItemsModel, String> categoryBillCol;
+    @FXML
+    private TableColumn<ItemsModel, String> itemBillCol;
+    @FXML
+    private TableColumn<ItemsModel, Integer> quantityBillCol;
 
     private ObservableList<BillsModel> listTablepassengers = FXCollections.observableArrayList();
     @FXML
@@ -227,7 +242,7 @@ public class SalesController implements Initializable {
     @FXML
     private TableColumn<OutcomeModel, String> userCol;
     private ObservableList<OutcomeModel> listTableAmount = FXCollections.observableArrayList();
-    
+
     @FXML
     private Button btnAddOutcome;
     @FXML
@@ -240,7 +255,6 @@ public class SalesController implements Initializable {
     private Button btnCancelOutcome;
     @FXML
     private Label lblamountIDOutcome;
-    
 
     @FXML
     private void clickListTable(ActionEvent event) {
@@ -314,6 +328,16 @@ public class SalesController implements Initializable {
         while (rs.next()) {
             hashmapTables.put(rs.getInt("table_id"), rs.getInt("table_no"));
             hashmapTablesNo.put(rs.getInt("table_no"), rs.getInt("table_id"));
+        }
+    }
+
+    public void selectCategoryStorage() throws ClassNotFoundException, SQLException {
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select category_id, name From Category";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            hashmapCategory.put(rs.getInt("category_id"), rs.getString("name"));
         }
     }
 
@@ -410,6 +434,62 @@ public class SalesController implements Initializable {
                             actionColOder.setCellValueFactory(new PropertyValueFactory<>("delete"));
 
                             conn = Connect.ConnectDB.connectSQLServer();
+                            int order_id = 0;
+                            sql = "select order_id, bill_id, table_id, time_in from Orders Where table_id = ? and bill_id = 0";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, hashmapTables.get(Integer.parseInt(tableNo)));
+                            rs = pre.executeQuery();
+                            if (rs.next()) {
+                                String[] splitTime = rs.getString("time_in").split("\\.");
+                                String intime = splitTime[0];
+
+                                intimeSales.setText(intime);
+
+                                order_id = rs.getInt("order_id");
+                            }
+
+                            sql = "select OrderStorage_id, storage_item_id, quantity, price, order_id from OrderStorage where order_id = ?";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, order_id);
+                            rs = pre.executeQuery();
+                            while (rs.next()) {
+                                ItemsModel itemsModel = new ItemsModel(hashmapStorage.get(rs.getInt("storage_item_id")),
+                                        rs.getFloat("price"),
+                                        rs.getInt("quantity"), null);
+                                listTableViewDishOrder.add(itemsModel);
+                            }
+                            tableViewOrderDish.setItems(listTableViewDishOrder);
+
+                        } catch (ClassNotFoundException | SQLException ex) {
+                            Logger.getLogger(SalesController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else if (status == 2) {
+                        try {
+                            nameColOrder.setCellValueFactory(new PropertyValueFactory<>("name"));
+                            quantityColOder.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+                            priceColOder.setCellValueFactory(new PropertyValueFactory<>("price"));
+                            actionColOder.setCellValueFactory(new PropertyValueFactory<>("delete"));
+                            
+                            int customer_id = 0;
+                            sql = "Select reservation_id, table_id, customer_id, time_start From Reservation Where table_id = ?";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, hashmapTables.get(Integer.parseInt(tableNo)));
+                            rs = pre.executeQuery();
+                            if(rs.next()){
+                                customer_id = rs.getInt("customer_id");
+                            }
+                            
+                            conn = Connect.ConnectDB.connectSQLServer();
+                            sql = "Delete Reservation Where table_id = ?";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, hashmapTables.get(Integer.parseInt(tableNo)));
+                            rss = pre.executeUpdate();
+                            
+                            sql = "Delete Customer Where customer_id = ?";
+                            pre = conn.prepareStatement(sql);
+                            pre.setInt(1, customer_id);
+                            rss = pre.executeUpdate();
+                            
                             int order_id = 0;
                             sql = "select order_id, bill_id, table_id, time_in from Orders Where table_id = ? and bill_id = 0";
                             pre = conn.prepareStatement(sql);
@@ -558,7 +638,7 @@ public class SalesController implements Initializable {
     @FXML
     private void clickSearchDish(ActionEvent event) throws ClassNotFoundException, SQLException {
         if (cbbCategorySales.getValue() == null) {
-
+            Notification.showMessageDialog(stackPaneSales, anchorPaneSales, "Please select a category.");
         } else {
             listDish.removeAll(listDish);
             listViewDish.clear();
@@ -1332,10 +1412,27 @@ public class SalesController implements Initializable {
         discountSales.positionCaret(length);
     }
 
+    public void showTableItemListBill() throws ClassNotFoundException, SQLException {
+        selectCategoryStorage();
+        selectStorage();
+        categoryBillCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+        itemBillCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        quantityBillCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-    // In and out
-    
-    
+        conn = Connect.ConnectDB.connectSQLServer();
+        sql = "Select COUNT(OrderStorage.OrderStorage_id) as quantity , OrderStorage.storage_item_id, Storage.category_id as category_id\n"
+                + "From OrderStorage inner join Storage\n"
+                + "on OrderStorage.storage_item_id = Storage.storage_item_id \n"
+                + "GROUP BY OrderStorage.storage_item_id, Storage.category_id";
+        st = conn.createStatement();
+        rs = st.executeQuery(sql);
+        while (rs.next()) {
+            ItemsModel itemsModel = new ItemsModel(hashmapCategory.get(rs.getInt("category_id")), hashmapStorage.get(rs.getInt("storage_item_id")), rs.getInt("quantity"));
+            listTableCategoryListBill.add(itemsModel);
+        }
+        tableCategoryListBill.setItems(listTableCategoryListBill);
+    }
+
     public void showTableUserListBill() throws ClassNotFoundException, SQLException {
         selectUser();
         userBillCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1351,7 +1448,29 @@ public class SalesController implements Initializable {
         }
         tableUserListBill.setItems(listTableUserListBill);
     }
-    
+
+    @FXML
+    private void clickRowTableUserListBill(MouseEvent event) throws IOException, ClassNotFoundException, SQLException {
+        BillsModel billsModel = tableUserListBill.getSelectionModel().getSelectedItem();
+        if (billsModel != null) {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/FXML/showBillByEmployee.fxml"));
+            Parent parent = loader.load();
+            Scene scene = new Scene(parent);
+            ShowBillByEmployeeController controller = loader.getController();
+
+            String user = billsModel.getName();
+            controller.showBillByEmployee(user);
+            scene.getStylesheets().add(getClass().getResource("/Css/Sales.css").toExternalForm());
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
     public void showTablePassengers() throws ClassNotFoundException, SQLException {
         selectTable();
         tableBillsCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1367,9 +1486,8 @@ public class SalesController implements Initializable {
         }
         tablePassengersListBill.setItems(listTablepassengers);
     }
-    
+
     // Out come
-    
     public void showTableAmount() throws ClassNotFoundException, SQLException {
         listTableAmount.clear();
         selectUser();
@@ -1389,7 +1507,7 @@ public class SalesController implements Initializable {
         }
         tableViewInAndOut.setItems(listTableAmount);
     }
-    
+
     @FXML
     private void clickRowTableOutcome(MouseEvent event) {
         OutcomeModel outcomeModel = tableViewInAndOut.getSelectionModel().getSelectedItem();
@@ -1428,7 +1546,7 @@ public class SalesController implements Initializable {
             selectUser();
             maxIDInandOut();
             Date d = new Date();
-            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
             String amount = "";
             String[] split = txtOutcomeAmount.getText().split(",");
 
@@ -1537,6 +1655,7 @@ public class SalesController implements Initializable {
             showTableAmount();
             showTablePassengers();
             showTableUserListBill();
+            showTableItemListBill();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SalesController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -1558,7 +1677,7 @@ public class SalesController implements Initializable {
             showTablesItems();
             showDishSales();
             showTableAmount();
-
+            showTableItemListBill();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SalesController.class
                     .getName()).log(Level.SEVERE, null, ex);
